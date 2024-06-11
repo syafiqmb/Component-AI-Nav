@@ -3,13 +3,15 @@
   "version": "0.0.1",
   "description": "",
   "main": "index.ts",
-  "private": true,
   "scripts": {
     "build": "webpack",
     "test": "jest"
   },
   "keywords": [],
-  "author": "",
+    "author": {
+    "name": "Syafiq Muhammad",
+    "email": "symuhammad@deloitte.com"
+  },
   "license": "ISC",
   "dependencies": {
     "@babel/preset-typescript": "^7.24.7",
@@ -32,6 +34,6 @@
     "webpack-cli": "^5.1.4"
   },
   "publishConfig": {
-    "access": "restricted"
+    "registry": "https://npm.pkg.github.com"
   }
 }
