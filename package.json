@@ -7,6 +7,7 @@
     "build": "webpack",
     "test": "jest"
   },
+  "repository": "git://github.com/syafiqmb/Component-AI-Nav.git",
   "keywords": [],
     "author": {
     "name": "Syafiq Muhammad",
