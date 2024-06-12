@@ -1,0 +1,32 @@
+{
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "env": { "es6": true },
+  "plugins": ["simple-import-sort", "prettier", "import"],
+  "extends": [
+    "prettier",
+    "react-app",
+    "react-app/jest",
+    "plugin:prettier/recommended",
+    "plugin:react/recommended"
+  ],
+  "rules": {
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "react/prop-types": "warn",
+    "import/no-duplicates": "error",
+    "react/jsx-key": "warn"
+    // "react/display-name": "warn"
+  },
+  "settings": {
+    "rules": {
+      "prettier/prettier": "warn"
+    },
+    "react": {
+      "version": "detect"
+    }
+  }
+}

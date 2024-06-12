@@ -1,15 +1,15 @@
 {
   "name": "@syafiqmb/componentainav",
-  "version": "0.0.3",
+  "version": "0.0.10",
   "description": "",
-  "main": "index.ts",
+  "main": "index.js",
   "scripts": {
     "build": "webpack",
     "test": "jest"
   },
   "repository": "git://github.com/syafiqmb/Component-AI-Nav.git",
   "keywords": [],
-    "author": {
+  "author": {
     "name": "Syafiq Muhammad",
     "email": "symuhammad@deloitte.com"
   },

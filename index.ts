@@ -1,1 +1,0 @@
-export {  ButtonComp } from './src/ButtonComp';
