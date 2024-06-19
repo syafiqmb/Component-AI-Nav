@@ -1,0 +1,162 @@
+.top-container {
+  /* width: 1920px; */
+  /* background: linear-gradient(90deg, #ffcc01 0%, #ffad01 100%); */
+  background: #86bc25;
+  height: 86px;
+  flex: 1;
+  flex-direction: row;
+  border: 1px solid #e2e8f000;
+  text-align: left;
+  align-items: center;
+  padding-left: 24px;
+}
+.title {
+  flex: 1;
+  align-items: center;
+  flex-direction: row;
+  width: 200px;
+  height: 32px;
+  font-weight: 600;
+  font-size: 24px;
+}
+.news-box {
+  width: auto;
+  height: 88vh;
+  margin: 0 100px 24px;
+}
+.text-a {
+  color: rgba(32, 33, 35, 1);
+  text-align: left;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 10%;
+  align-items: center;
+  margin: 16px 0;
+}
+.text-a-1 {
+  color: rgba(32, 33, 35, 1);
+  text-align: right;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 10%;
+  align-items: center;
+}
+.button-source {
+  color: rgba(32, 33, 35, 1);
+  text-align: center;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 10%;
+  align-items: center;
+  margin-top: 12px;
+}
+.title-news {
+  text-align: center;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  color: #202123;
+}
+.card-text-title {
+  align-items: left;
+  text-align: left;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  color: #202123;
+}
+.card-text-a {
+  align-items: left;
+  text-align: left;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  color: #202123;
+}
+.card-text-aa {
+  align-items: center;
+  text-align: start;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  color: #2d3748;
+  padding-left: 12px;
+}
+.card-text-aaa {
+  align-items: center;
+  text-align: start;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  color: #2d3748;
+  padding-left: 12px;
+}
+.reco {
+  text-align: left;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  color: #202123;
+  margin: 0 24px;
+}
+
+.reco1 {
+  text-align: left;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  color: #202123;
+  text-decoration: underline;
+}
+.reco2 {
+  text-align: left;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  color: #202123;
+  padding-bottom: 35px;
+  margin: 0 24px;
+}
+.chakra-modal__body {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.ul-component {
+  padding-left: 16px;
+  padding-bottom: 1rem;
+}
+
+.li-component {
+  margin-left: 20px;
+}
+
+.li-component p {
+  padding-bottom: 0;
+}
+
+.li-component p:first-child {
+  padding-bottom: 0;
+}
+
+.hr-component {
+}
+
+.ol-component {
+  padding-left: 16px;
+  padding-bottom: 1rem;
+}
+
+.p-component {
+  padding: 0 0 1rem 0;
+}
+
+.p-component:first-child {
+  padding: 5px 0;
+}
