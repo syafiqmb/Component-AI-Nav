@@ -1,0 +1,133 @@
+.news-container {
+  display: flex;
+  /* padding: 10px 32px; */
+  padding: 10px 50px;
+  max-width: 100%;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  overflow-y: auto;
+}
+
+.list-panel-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  max-width: 900px;
+  margin: 0px auto;
+  padding: 0 10px;
+}
+
+.logo {
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.article-src {
+  text-align: left;
+  color: #202123;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding-left: 10px;
+  /* cursor: pointer; */
+}
+
+.article-src * {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.article-url {
+  text-align: left;
+  color: #202123;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-left: 10px;
+  /* cursor: pointer; */
+}
+
+.article-url * {
+  color: rgba(255, 255, 255, 0.64) !important;
+}
+
+.title-grid {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* Number of lines to show */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.article-title {
+  text-align: left;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.article-title * {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.article-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 21px */
+}
+
+.description-grid {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3; /* Number of lines to show */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-top: 4px;
+}
+
+.grid-article-description {
+  text-align: left;
+  color: #202123;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 171.429% */
+}
+
+.article-date {
+  text-align: left;
+  color: #202123;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 1.2px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.article-date * {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* .toggle-view {
+    position: absolute;
+    left: 10px;
+    width: 50px;
+} */

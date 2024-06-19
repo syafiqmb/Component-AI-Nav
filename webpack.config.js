@@ -1,38 +1,45 @@
-const path = require('path');
+// webpack.config.js
+const path = require("path");
+const nodeExternals = require("webpack-node-externals");
 
 module.exports = {
-  entry: './src/index.ts',
+  mode: "production", // or 'production' based on your environment
+  entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'index.js',
-    library: 'AINavigator',
-    libraryTarget: 'umd',
-    globalObject: 'this',
-  },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    path: path.resolve(__dirname, "dist"),
+    filename: "index.js",
+    library: "componentAiNav",
+    libraryTarget: "umd",
   },
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/,
-        use: 'babel-loader',
-        exclude: /node_modules/,
+        test: /\.(js|jsx|ts|tsx)$/,
+        exclude: /node_modules\/(?!@syafiqmb\/componentainav)/,
+        use: {
+          loader: "babel-loader",
+        },
+      },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].[ext]",
+              outputPath: "images/",
+            },
+          },
+        ],
       },
     ],
   },
-  externals: {
-    react: {
-      commonjs: 'react',
-      commonjs2: 'react',
-      amd: 'React',
-      root: 'React',
-    },
-    'react-dom': {
-      commonjs: 'react-dom',
-      commonjs2: 'react-dom',
-      amd: 'ReactDOM',
-      root: 'ReactDOM',
-    },
+  resolve: {
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
   },
+  externals: [nodeExternals()],
 };

@@ -1,3 +1,3 @@
-import * as ButtonComp from "./src/ButtonComp";
+import * as UIComponent from "./src/components";
 
-export { ButtonComp };
+export { UIComponent };
