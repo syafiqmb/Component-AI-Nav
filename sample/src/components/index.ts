@@ -6,3 +6,4 @@ export * from "./GridNewsItem";
 export * from "./NewsDetail";
 export * from "./NewsFilter";
 export * from "./News";
+export * from "./DynamicOverview";

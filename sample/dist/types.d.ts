@@ -32,4 +32,6 @@ declare const NewsFilter: ({ listoftopic, submitFunc }: any) => react_jsx_runtim
 
 declare const News: ({ view, news }: any) => react_jsx_runtime.JSX.Element;
 
-export { Button, DatePicker, EmptyNews, GridNewsItem, News, NewsDetails as NewsDetail, NewsFilter };
+declare const DynamicOverview: ({ overviewData, labels, dataset, datasetLabel, backgroundColor, optionPosition, chartTitle, leftSideParagraph, rightSideParagraph, }: any) => react_jsx_runtime.JSX.Element;
+
+export { Button, DatePicker, DynamicOverview, EmptyNews, GridNewsItem, News, NewsDetails as NewsDetail, NewsFilter };
