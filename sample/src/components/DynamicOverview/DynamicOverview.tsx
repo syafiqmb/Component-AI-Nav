@@ -1,3 +1,5 @@
+import "./DynamicOverview.css";
+
 import { Box, Divider, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
 import {
   ArcElement,
@@ -30,50 +32,8 @@ ChartJS.register(
 
 const DynamicOverview = ({
   overviewData /*  top paragraph - accepts string*/,
-  // chart component starts
-  labels /* accepts array of strings */,
-  dataset /* accepts array of strings */,
-  datasetLabel /* accepts strings */,
-  backgroundColor /* accepts array of strings */,
-  optionPosition /* accepts strings */,
-  chartTitle /* accepts strings */,
-  // chart component ends
-  leftSideParagraph /* right paragraph - accepts object -> title and paragraph */,
-  rightSideParagraph /* left paragraph - accepts object -> title and paragraph */,
+  paragraphs /* paragraphs - accepts array of objects */,
 }: any) => {
-  // const datasets = [];
-  // if (dataset.length > 0) {
-  //   dataset.forEach((data: any) => {
-  //     if (data) {
-  //       datasets.push(parseInt(data.replace(/,/g, "")));
-  //     }
-  //   });
-  // }
-
-  const dataMetrics = {
-    labels: labels,
-    datasets: [
-      {
-        label: datasetLabel,
-        data: dataset,
-        backgroundColor: backgroundColor,
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: optionPosition,
-      },
-      title: {
-        display: true,
-        text: chartTitle,
-      },
-    },
-  };
-
   return (
     <Flex className="global-outlook-container">
       <Text className="global-outlook-overview">
@@ -89,53 +49,58 @@ const DynamicOverview = ({
         templateColumns="repeat(2, 1fr)"
         className="grid-container"
       >
-        <GridItem data-testid="summary-analysis-competitor-moves-grid-item">
-          <Text
-            data-testid="summary-analysis-competitor-moves-title"
-            fontSize={{ sm: "16px", xl: "16px" }}
-            className="subheading"
-          >
-            {leftSideParagraph.title}
-          </Text>
-          <Text
-            data-testid="summary-analysis-competitor-moves-title"
-            fontSize={{ sm: "16px", xl: "16px" }}
-          >
-            {leftSideParagraph.paragraph}
-          </Text>
-          {dataset && (
-            <Box
-              width="300px"
-              height="300px"
-              margin="0 auto"
-              // className="bar-chart-container"
-              // style={{ width: 300, height: 300, margin: "0 auto" }}
+        {paragraphs &&
+          paragraphs.map((data: any, index: any) => (
+            <GridItem
+              key={index}
+              data-testid="summary-analysis-competitor-moves-grid-item"
             >
-              <Bar
-                width={300}
-                height={300}
-                data={dataMetrics}
-                options={options}
-              />
-            </Box>
-          )}
-        </GridItem>
-        <GridItem data-testid="summary-analysis-news-analysis-grid-item">
-          <Text
-            data-testid="summary-analysis-news-analysis-title"
-            fontSize={{ sm: "16px", xl: "16px" }}
-            className="subheading"
-          >
-            {rightSideParagraph.title}
-          </Text>
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeRaw]}
-            data-testid={`chatbox-response-markdown`}
-          >
-            {rightSideParagraph.paragraph}
-          </ReactMarkdown>
-        </GridItem>
+              <Text
+                data-testid="summary-analysis-competitor-moves-title"
+                fontSize={{ sm: "16px", xl: "16px" }}
+                className="subheading"
+              >
+                {data.title}
+              </Text>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeRaw]}
+                data-testid={`chatbox-response-markdown`}
+              >
+                {data.paragraph}
+              </ReactMarkdown>
+              {data?.graph?.dataset && (
+                <Box width="300px" height="300px" margin="0 auto">
+                  <Bar
+                    width={300}
+                    height={300}
+                    data={{
+                      labels: data.graph?.labels,
+                      datasets: [
+                        {
+                          label: data.graph?.datasetLabel,
+                          data: data.graph?.dataset,
+                          backgroundColor: data.graph?.backgroundColor,
+                        },
+                      ],
+                    }}
+                    options={{
+                      responsive: true,
+                      plugins: {
+                        legend: {
+                          position: data.graph?.optionPosition,
+                        },
+                        title: {
+                          display: true,
+                          text: data.graph?.chartTitle,
+                        },
+                      },
+                    }}
+                  />
+                </Box>
+              )}
+            </GridItem>
+          ))}
       </Grid>
     </Flex>
   );
