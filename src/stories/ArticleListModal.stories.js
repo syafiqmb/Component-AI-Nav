@@ -1,6 +1,6 @@
 import { fn } from "@storybook/test";
 import React from 'react';
-import RelatedArticles from "../components/RelatedArticles";
+import ArticleListModal from "../components/ArticleListModal";
 
 // function example
 const openDetailsModal = (data) => {
@@ -9,17 +9,17 @@ const openDetailsModal = (data) => {
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "Example/RelatedArticles",
-  component: RelatedArticles,
+  title: "Example/ArticleListModal",
+  component: ArticleListModal,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ["autodocs"],
   // More on argTypes: https://storybook.js.org/docs/api/argtypes
   // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
   argTypes: {
     openDetailsModal: {action: 'openDetailsModal'},
-    isLoading: "boolean",
-    isFile: "boolean",
-    docs: [
+		chatId: "string",
+    openModal: "boolean",
+    data: [
       {
         article: "string",
         author: "string",
@@ -44,15 +44,15 @@ const meta = {
 
 export default meta;
 
-const Template = (args) => <RelatedArticles {...args} />;
+const Template = (args) => <ArticleListModal {...args} />;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Primary = Template.bind({});
 Primary.args = {
   openDetailsModal,
-  isLoading: "false",
-  isFile: "false",
-  docs: [
+	chatId: "qwerty123",
+  openModal: "true",
+  data: [
     {
       article: "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ",
       author: "Steve Jobs",
@@ -112,10 +112,10 @@ Primary.args = {
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-	openDetailsModal,
-  isLoading: "false",
-  isFile: "false",
-  docs: [
+  openDetailsModal,
+	chatId: "qwerty123",
+  openModal: "true",
+  data: [
     {
       article: "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ",
       author: "Steve Jobs",
@@ -140,10 +140,9 @@ Secondary.args = {
 export const Third = Template.bind({});
 Third.args = {
   openDetailsModal,
-  isLoading: "false",
-  isFile: "false",
-  promptId: "123456qwerty",
-  docs: [
+	chatId: "qwerty123",
+  openModal: "true",
+  data: [
     {
       article: "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ",
       author: "Steve Jobs",

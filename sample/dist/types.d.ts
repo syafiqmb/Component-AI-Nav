@@ -84,4 +84,30 @@ declare const RelatedArticlesDrawer: {({ openDetailsModal, docs }:{
     ],
 }): react_jsx_runtime.JSX.Element};
 
-export { Button, DatePicker, DynamicOverview, EmptyNews, GridNewsItem, News, NewsDetails as NewsDetail, NewsFilter, RelatedArticles, RelatedArticlesDrawer };
+declare const ArticleListModal: {({ openDetailsModal, chatId, openModal, data }:{   
+    openDetailsModal?: () => void;
+    chatId?: string;
+    openModal?: boolean;
+    data?: [
+        {
+            article: string,
+            author: string,
+            date: string,
+            description: string,
+            facets: [
+                {
+                    content: string,
+                    header: string,
+                }
+            ],
+            id: string,
+            source: string,
+            summary: string,
+            tags: string,
+            title: string,
+            url: string,
+        }
+    ],
+}): react_jsx_runtime.JSX.Element};
+
+export { Button, DatePicker, DynamicOverview, EmptyNews, GridNewsItem, News, NewsDetails as NewsDetail, NewsFilter, RelatedArticles, RelatedArticlesDrawer, ArticleListModal };

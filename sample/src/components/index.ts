@@ -9,3 +9,4 @@ export * from "./News";
 export * from "./DynamicOverview";
 export * from "./RelatedArticles/RelatedArticles";
 export * from "./RelatedArticlesDrawer/RelatedArticlesDrawer";
+export * from "./ArticleListModal/ArticleListModal";
