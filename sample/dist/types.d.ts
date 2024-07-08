@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import React, { MouseEventHandler, RefObject } from 'react';
 import * as react_jsx_runtime from 'react/jsx-runtime';
 import PropTypes from 'prop-types';
 
@@ -34,4 +34,54 @@ declare const News: ({ view, news }: any) => react_jsx_runtime.JSX.Element;
 
 declare const DynamicOverview: ({ overviewData, paragraphs, }: any) => react_jsx_runtime.JSX.Element;
 
-export { Button, DatePicker, DynamicOverview, EmptyNews, GridNewsItem, News, NewsDetails as NewsDetail, NewsFilter };
+declare const RelatedArticles: {({ openDetailsModal, isLoading, isFile, docs }:{
+    openDetailsModal?: () => void;
+    isLoading?: boolean;
+    isFile?: boolean;
+    docs?: [
+        {
+            article: string,
+            author: string,
+            date: string,
+            description: string,
+            facets: [
+                {
+                    content: string,
+                    header: string,
+                }
+            ],
+            id: string,
+            source: string,
+            summary: string,
+            tags: string,
+            title: string,
+            url: string,
+        }
+    ],
+}): react_jsx_runtime.JSX.Element};
+
+declare const RelatedArticlesDrawer: {({ openDetailsModal, docs }:{   
+    openDetailsModal?: () => void;
+    docs?: [
+        {
+            article: string,
+            author: string,
+            date: string,
+            description: string,
+            facets: [
+                {
+                    content: string,
+                    header: string,
+                }
+            ],
+            id: string,
+            source: string,
+            summary: string,
+            tags: string,
+            title: string,
+            url: string,
+        }
+    ],
+}): react_jsx_runtime.JSX.Element};
+
+export { Button, DatePicker, DynamicOverview, EmptyNews, GridNewsItem, News, NewsDetails as NewsDetail, NewsFilter, RelatedArticles, RelatedArticlesDrawer };
