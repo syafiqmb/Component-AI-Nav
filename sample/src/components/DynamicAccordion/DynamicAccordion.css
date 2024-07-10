@@ -1,0 +1,17 @@
+.subheading {
+  font-size: 26px;
+}
+
+@media (min-width: 768px) {
+  .subheading {
+    font-size: 30px;
+  }
+}
+
+.dynamic-accordion-item {
+  margin-bottom: 10px;
+}
+
+.dynamic-accordion-panel {
+  padding-bottom: 10px;
+}

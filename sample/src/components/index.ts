@@ -7,3 +7,4 @@ export * from "./NewsDetail";
 export * from "./NewsFilter";
 export * from "./News";
 export * from "./DynamicOverview";
+export * from "./DynamicAccordion";
