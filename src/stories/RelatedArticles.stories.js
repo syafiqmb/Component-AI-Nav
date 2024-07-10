@@ -1,5 +1,6 @@
 import { fn } from "@storybook/test";
 import React from 'react';
+import { action } from '@storybook/addon-actions';
 import RelatedArticles from "../components/RelatedArticles";
 
 // function example
@@ -16,15 +17,17 @@ const meta = {
   // More on argTypes: https://storybook.js.org/docs/api/argtypes
   // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
   argTypes: {
+    setSeeAllOpen: { control: 'boolean' },
     openDetailsModal: {action: 'openDetailsModal'},
-    isLoading: "boolean",
-    isFile: "boolean",
+    isLoading: { control: 'boolean' },
+    isFile: { control: 'boolean' },
     docs: [
       {
         article: "string",
         author: "string",
         date: "string",
         description: "string",
+        distance: "number",
         facets: [
             {
                 content: "string",
@@ -49,9 +52,10 @@ const Template = (args) => <RelatedArticles {...args} />;
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Primary = Template.bind({});
 Primary.args = {
+  setSeeAllOpen: action('setSeeAllOpen'),
   openDetailsModal,
-  isLoading: "false",
-  isFile: "false",
+  isLoading: false,
+  isFile: false,
   docs: [
     {
       article: "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ",
@@ -112,9 +116,10 @@ Primary.args = {
 
 export const Secondary = Template.bind({});
 Secondary.args = {
+  setSeeAllOpen: action('setSeeAllOpen'),
 	openDetailsModal,
-  isLoading: "false",
-  isFile: "false",
+  isLoading: false,
+  isFile: false,
   docs: [
     {
       article: "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ",
@@ -139,9 +144,10 @@ Secondary.args = {
 
 export const Third = Template.bind({});
 Third.args = {
+  setSeeAllOpen: action('setSeeAllOpen'),
   openDetailsModal,
-  isLoading: "false",
-  isFile: "false",
+  isLoading: false,
+  isFile: false,
   promptId: "123456qwerty",
   docs: [
     {

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import "./ArticleListModal.css";
 
 import { Icon, SearchIcon } from "@chakra-ui/icons";
@@ -28,11 +29,10 @@ import {
   TagCloseButton,
   Text,
   useColorModeValue,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { MdOutlineOpenInNew } from "react-icons/md";
-import ReactPaginate, { ReactPaginateProps } from "react-paginate";
+import ReactPaginate from "react-paginate";
 
 import DeloitteLogo from "../../assets/images/deloitte_icon.svg";
 import formatSourceToString from "../../utils/helper/FormatSourceToString";
@@ -44,22 +44,38 @@ import WebsiteAiIcon from "../../assets/icons/websiteAiIcon";
 const itemsPerPage = 10;
 
 type ItemType = {
-	// console.log in project
-  // id: number;
-  // name: string;
-  // Add other properties as needed
+	article: string,
+  author: string,
+  date: string,
+  description: string,
+  distance: number,
+  facets: [
+    {
+      content: string,
+      header: string,
+    }
+  ],
+  id: string,
+  source: string,
+  summary: string,
+  tags: string,
+  title: string,
+  url: string,
 };
 
 interface ArticleListModalProps {
-  openDetailsModal: (data: any) => void,
+  setSeeAllOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  openDetailsModal: (data: ItemType) => void,
   chatId: string,
-	openModal: boolean,
+	isOpen: boolean,
+  onClose: () => void,
 	data: [
     {
       article: string,
       author: string,
       date: string,
       description: string,
+      distance: number,
       facets: [
           {
               content: string,
@@ -76,15 +92,14 @@ interface ArticleListModalProps {
   ],
 }
 
-const ArticleListModal: FC<ArticleListModalProps> = ({ openDetailsModal, chatId, openModal, data }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  useEffect(() => {
-    if (openModal) {
-      onOpen();
-    }
-  }, [openModal]);
-
+const ArticleListModal: FC<ArticleListModalProps> = ({ 
+  setSeeAllOpen,
+  openDetailsModal,
+  chatId,
+  isOpen,
+  onClose,
+  data,
+}) => {
   const [currentItems, setCurrentItems] = useState<ItemType[] | null>(null);
   const [pageCount, setPageCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -119,12 +134,12 @@ const ArticleListModal: FC<ArticleListModalProps> = ({ openDetailsModal, chatId,
   const paginateTextColor = useColorModeValue("page-link", "page-link-dark");
 
   // Function to handle sorting option change
-  const handleSortChange = (e: any) => {
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortOption(e.target.value);
   };
 
   // Sorting logic
-  const sortedData = data.sort((a: any, b: any) => {
+  const sortedData = data.sort((a: ItemType, b: ItemType) => {
     if (sortOption === "relevance") {
       // Sort by the distance field in ascending order
       return b.distance - a.distance;
@@ -282,7 +297,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({ openDetailsModal, chatId,
         <ModalOverlay />
         <ModalContent backgroundColor={backgroundColor} maxHeight="100%">
           <ModalHeader>Related Articles</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton onClick={() => setSeeAllOpen(false)} />
           <ModalBody className="modal-container" backgroundColor={modalColor}>
             <Box className="filter-container">
               <Box className="category-filter-container">
@@ -334,7 +349,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({ openDetailsModal, chatId,
                   <Input
                     data-testid="search-input-word-filter-container"
                     placeholder="Search"
-										onChange={(e) =>setSearchInput(e.target.value)}
+                    onChange={(e) => setSearchInput(e.target.value)}
                     onKeyDown={handleSearchKeyDown}
                   />
                   <InputRightElement>
@@ -394,7 +409,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({ openDetailsModal, chatId,
               </Box>
               <Box className="list-container-content">
                 {Array.isArray(currentItems) &&
-                  currentItems.map((item: any, index: number) => (
+                  currentItems.map((item: ItemType, index: number) => (
                     <Box className="article-container" key={index}>
                       <Box className="article-container-header">
                         <Box className="article-logo-container">

@@ -1,5 +1,6 @@
 import { fn } from "@storybook/test";
-import React from 'react';
+import React, {useState} from 'react';
+import { action } from '@storybook/addon-actions';
 import ArticleListModal from "../components/ArticleListModal";
 
 // function example
@@ -16,15 +17,18 @@ const meta = {
   // More on argTypes: https://storybook.js.org/docs/api/argtypes
   // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
   argTypes: {
+    setSeeAllOpen: { control: 'boolean' },
     openDetailsModal: {action: 'openDetailsModal'},
-		chatId: "string",
-    openModal: "boolean",
+    chatId: "string",
+    isOpen: { control: 'boolean' },
+    onClose: { action: 'onClose' },
     data: [
       {
         article: "string",
         author: "string",
         date: "string",
         description: "string",
+        distance: "number",
         facets: [
             {
                 content: "string",
@@ -44,14 +48,26 @@ const meta = {
 
 export default meta;
 
-const Template = (args) => <ArticleListModal {...args} />;
+const Template = (args) => {
+  const [isOpen, setIsOpen] = useState(args.isOpen);
+
+  return (
+    <ArticleListModal
+      {...args}
+      setSeeAllOpen={(value) => setIsOpen(value)}
+      isOpen={isOpen}
+    />
+  );
+};
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Primary = Template.bind({});
 Primary.args = {
+  setSeeAllOpen: action('setSeeAllOpen'),
   openDetailsModal,
-	chatId: "qwerty123",
-  openModal: "true",
+  chatId: "qwerty123",
+	isOpen: true,
+  onClose: action('onClose'),
   data: [
     {
       article: "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ",
@@ -112,9 +128,11 @@ Primary.args = {
 
 export const Secondary = Template.bind({});
 Secondary.args = {
+  setSeeAllOpen: action('setSeeAllOpen'),
   openDetailsModal,
-	chatId: "qwerty123",
-  openModal: "true",
+  chatId: "qwerty123",
+	isOpen: true,
+  onClose: action('onClose'),
   data: [
     {
       article: "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ",
@@ -139,9 +157,11 @@ Secondary.args = {
 
 export const Third = Template.bind({});
 Third.args = {
+  setSeeAllOpen: action('setSeeAllOpen'),
   openDetailsModal,
-	chatId: "qwerty123",
-  openModal: "true",
+  chatId: "qwerty123",
+	isOpen: true,
+  onClose: action('onClose'),
   data: [
     {
       article: "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ",

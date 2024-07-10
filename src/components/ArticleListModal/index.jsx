@@ -28,9 +28,8 @@ import {
   TagCloseButton,
   Text,
   useColorModeValue,
-  useDisclosure,
 } from "@chakra-ui/react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineOpenInNew } from "react-icons/md";
 import ReactPaginate from "react-paginate";
 
@@ -43,15 +42,14 @@ import WebsiteAiIcon from "../../assets/icons/websiteAiIcon";
 // Number of items to show per page
 const itemsPerPage = 10;
 
-const ArticleListModal = ({ openDetailsModal, chatId, openModal, data }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  useEffect(() => {
-    if (openModal) {
-      onOpen();
-    }
-  }, [openModal]);
-
+const ArticleListModal = ({
+  setSeeAllOpen,
+  openDetailsModal,
+  chatId,
+  isOpen,
+  onClose,
+  data,
+}) => {
   const [currentItems, setCurrentItems] = useState(null);
   const [pageCount, setPageCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -247,7 +245,7 @@ const ArticleListModal = ({ openDetailsModal, chatId, openModal, data }) => {
         <ModalOverlay />
         <ModalContent backgroundColor={backgroundColor} maxHeight="100%">
           <ModalHeader>Related Articles</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton onClick={() => setSeeAllOpen(false)} />
           <ModalBody className="modal-container" backgroundColor={modalColor}>
             <Box className="filter-container">
               <Box className="category-filter-container">

@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, RefObject } from 'react';
+import React$1, { MouseEventHandler, FC } from 'react';
 import * as react_jsx_runtime from 'react/jsx-runtime';
 import PropTypes from 'prop-types';
 
@@ -9,9 +9,9 @@ type ButtonProps = {
     size?: "small" | "medium" | "large";
     onClick?: MouseEventHandler<HTMLButtonElement>;
 };
-declare const Button: React.FC<ButtonProps>;
+declare const Button: React$1.FC<ButtonProps>;
 
-declare const DatePicker: React.FC<any>;
+declare const DatePicker: React$1.FC<any>;
 
 declare const EmptyNews: {
     ({ title, desc, }: {
@@ -34,80 +34,111 @@ declare const News: ({ view, news }: any) => react_jsx_runtime.JSX.Element;
 
 declare const DynamicOverview: ({ overviewData, paragraphs, }: any) => react_jsx_runtime.JSX.Element;
 
-declare const RelatedArticles: {({ openDetailsModal, isLoading, isFile, docs }:{
-    openDetailsModal?: () => void;
-    isLoading?: boolean;
-    isFile?: boolean;
-    docs?: [
+interface RelatedArticlesProps {
+    setSeeAllOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    openDetailsModal: (data: any) => void;
+    isLoading: boolean;
+    isFile: boolean;
+    docs: [
         {
-            article: string,
-            author: string,
-            date: string,
-            description: string,
+            article: string;
+            author: string;
+            date: string;
+            description: string;
+            distance: number;
             facets: [
                 {
-                    content: string,
-                    header: string,
+                    content: string;
+                    header: string;
                 }
-            ],
-            id: string,
-            source: string,
-            summary: string,
-            tags: string,
-            title: string,
-            url: string,
+            ];
+            id: string;
+            source: string;
+            summary: string;
+            tags: string;
+            title: string;
+            url: string;
         }
-    ],
-}): react_jsx_runtime.JSX.Element};
+    ];
+}
+declare const RelatedArticles: FC<RelatedArticlesProps>;
 
-declare const RelatedArticlesDrawer: {({ openDetailsModal, docs }:{   
-    openDetailsModal?: () => void;
-    docs?: [
+interface RelatedArticlesDrawerProps {
+    isFile: boolean;
+    isLoading: boolean;
+    setSeeAllOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    openDetailsModal: (data: any) => void;
+    docs: [
         {
-            article: string,
-            author: string,
-            date: string,
-            description: string,
+            article: string;
+            author: string;
+            date: string;
+            description: string;
+            distance: number;
             facets: [
                 {
-                    content: string,
-                    header: string,
+                    content: string;
+                    header: string;
                 }
-            ],
-            id: string,
-            source: string,
-            summary: string,
-            tags: string,
-            title: string,
-            url: string,
+            ];
+            id: string;
+            source: string;
+            summary: string;
+            tags: string;
+            title: string;
+            url: string;
         }
-    ],
-}): react_jsx_runtime.JSX.Element};
+    ];
+}
+declare const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps>;
 
-declare const ArticleListModal: {({ openDetailsModal, chatId, openModal, data }:{   
-    openDetailsModal?: () => void;
-    chatId?: string;
-    openModal?: boolean;
-    data?: [
+type ItemType = {
+    article: string;
+    author: string;
+    date: string;
+    description: string;
+    distance: number;
+    facets: [
         {
-            article: string,
-            author: string,
-            date: string,
-            description: string,
+            content: string;
+            header: string;
+        }
+    ];
+    id: string;
+    source: string;
+    summary: string;
+    tags: string;
+    title: string;
+    url: string;
+};
+interface ArticleListModalProps {
+    setSeeAllOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    openDetailsModal: (data: ItemType) => void;
+    chatId: string;
+    isOpen: boolean;
+    onClose: () => void;
+    data: [
+        {
+            article: string;
+            author: string;
+            date: string;
+            description: string;
+            distance: number;
             facets: [
                 {
-                    content: string,
-                    header: string,
+                    content: string;
+                    header: string;
                 }
-            ],
-            id: string,
-            source: string,
-            summary: string,
-            tags: string,
-            title: string,
-            url: string,
+            ];
+            id: string;
+            source: string;
+            summary: string;
+            tags: string;
+            title: string;
+            url: string;
         }
-    ],
-}): react_jsx_runtime.JSX.Element};
+    ];
+}
+declare const ArticleListModal: FC<ArticleListModalProps>;
 
-export { Button, DatePicker, DynamicOverview, EmptyNews, GridNewsItem, News, NewsDetails as NewsDetail, NewsFilter, RelatedArticles, RelatedArticlesDrawer, ArticleListModal };
+export { ArticleListModal, Button, DatePicker, DynamicOverview, EmptyNews, GridNewsItem, News, NewsDetails as NewsDetail, NewsFilter, RelatedArticles, RelatedArticlesDrawer };

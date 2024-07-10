@@ -4,6 +4,7 @@ import { ArrowLeftIcon, ArrowRightIcon, Icon } from "@chakra-ui/icons";
 import {
   Avatar,
   Box,
+  Button,
   Center,
   ChakraProvider,
   Divider,
@@ -29,7 +30,13 @@ import formatStringIntoArray from "../../utils/helper/FormatStringIntoArray";
 import NewsIcon from "../../assets/icons/newsIcon";
 import WebsiteAiIcon from "../../assets/icons/websiteAiIcon";
 
-const RelatedArticles = ({ openDetailsModal, isLoading, isFile, docs }) => {
+const RelatedArticles = ({
+  setSeeAllOpen,
+  openDetailsModal,
+  isLoading,
+  isFile,
+  docs,
+}) => {
   const [articleSidebarOpen, setArticleSidebarOpen] = useState(true);
 
   var listArticle = docs;
@@ -357,14 +364,12 @@ const RelatedArticles = ({ openDetailsModal, isLoading, isFile, docs }) => {
                       </Box>
                     );
                   })}
-                  {/* <ArticleListModal data={listArticle} prompt={prompt} />
-                  <ArticleDetails
-                    data={dataToPass}
-                    url={url}
-                    isOpen={openDetails}
-                    onClose={closeDetailsModal}
-                    onBack={closeDetailsModal}
-                  /> */}
+                  <Button
+                    className="see-all-btn"
+                    onClick={() => setSeeAllOpen(true)}
+                  >
+                    See all
+                  </Button>
                 </Box>
               )}
             </Box>

@@ -4,6 +4,7 @@ import { ArrowLeftIcon, ArrowRightIcon, Icon } from "@chakra-ui/icons";
 import {
   Avatar,
   Box,
+  Button,
   Center,
   Divider,
   Flex,
@@ -29,6 +30,7 @@ import NewsIcon from "../../assets/icons/newsIcon";
 import WebsiteAiIcon from "../../assets/icons/websiteAiIcon";
 
 interface RelatedArticlesProps {
+  setSeeAllOpen: React.Dispatch<React.SetStateAction<boolean>>,
   openDetailsModal: (data: any) => void,
   isLoading: boolean,
   isFile: boolean,
@@ -38,11 +40,12 @@ interface RelatedArticlesProps {
       author: string,
       date: string,
       description: string,
+      distance: number,
       facets: [
-          {
-              content: string,
-              header: string,
-          }
+        {
+            content: string,
+            header: string,
+        }
       ],
       id: string,
       source: string,
@@ -54,7 +57,7 @@ interface RelatedArticlesProps {
   ],
 }
 
-const RelatedArticles: FC<RelatedArticlesProps> = ({ openDetailsModal, isLoading, isFile, docs }) => {
+const RelatedArticles: FC<RelatedArticlesProps> = ({ setSeeAllOpen, openDetailsModal, isLoading, isFile, docs }) => {
   const [articleSidebarOpen, setArticleSidebarOpen] = useState(true);
   
   var listArticle = docs;
@@ -382,14 +385,12 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({ openDetailsModal, isLoading
                     </Box>
                   );
                 })}
-                {/* <ArticleListModal data={listArticle} prompt={prompt} />
-                <ArticleDetails
-                  data={dataToPass}
-                  url={url}
-                  isOpen={openDetails}
-                  onClose={closeDetailsModal}
-                  onBack={closeDetailsModal}
-                /> */}
+                <Button
+                  className="see-all-btn"
+                  onClick={() => setSeeAllOpen(true)}
+                >
+                  See all
+                </Button>
               </Box>
             )}
           </Box>
