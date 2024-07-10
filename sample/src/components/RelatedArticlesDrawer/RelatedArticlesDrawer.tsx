@@ -5,6 +5,7 @@ import {
   Box,
   Button,
   Center,
+  ChakraProvider,
   Drawer,
   DrawerOverlay,
   DrawerContent,
@@ -14,10 +15,10 @@ import {
   Text,
   useColorModeValue,
   useDisclosure,
-  ChakraProvider,
+  useMediaQuery,
 } from "@chakra-ui/react";
 
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import ReactGA from "react-ga4";
 import { MdOutlineOpenInNew } from "react-icons/md";
 
@@ -56,6 +57,16 @@ interface RelatedArticlesDrawerProps {
 }
 
 const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({ isFile, isLoading, setSeeAllOpen, openDetailsModal, docs }) => {
+  const [isXl] = useMediaQuery("(min-width: 1280px)");
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    if (isXl) {
+      onClose();
+    }
+  }, [isXl, onClose]);
+
   var listArticle = docs;
   var listTag: any[] = [];
 
@@ -79,8 +90,6 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({ isFile, isLoadi
     "rgba(26, 32, 44, 1)",
   );
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   return (
     <ChakraProvider>
       <IconButton
@@ -103,7 +112,6 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({ isFile, isLoadi
           <Box paddingTop="32px">
             <IconButton
               aria-label="Close drawer"
-              display={{ base: "block", xl: "none" }}
               icon={<ArrowRightIcon />}
               backgroundColor="transparent"
               border="1px solid #E2E8F0"
@@ -148,132 +156,134 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({ isFile, isLoadi
                 )}
               </Center>
             ) : (
-              <Box className="article-list-container" height="75vh">
-                {listArticle.slice(0, 5).map((data: any, index: number) => {
-                  return (
-                    <Box className="article-container" key={index}>
-                      <Box className="article-header">
-                        {data.source === `['news']` ? (
-                          <Avatar
-                            icon={<NewsIcon />}
-                            size="sm"
-                            bg="transparent"
-                            data-testid="news-item-header-news-icon"
-                          />
-                        ) : data.source === `['websites_ai']` ? (
-                          <Avatar
-                            icon={<WebsiteAiIcon />}
-                            size="sm"
-                            bg="transparent"
-                            data-testid="news-item-header-website-icon"
-                          />
-                        ) : (
-                          <Avatar
-                            src={DeloitteLogo}
-                            size="xs"
-                            className="article-logo"
-                            data-testid="news-item-header-deloitte-icon"
-                          />
-                        )}
-                        <Box className="header-text-container">
-                          <Text className="article-header-text" color={textColor}>
-                            {String(data.author).toUpperCase() ||
-                              formatSourceToString(data.source).toUpperCase()}
-                          </Text>
-                          <Box className="external-source-container">
-                            <Text
-                              className="article-header-text"
-                              color={textColor}
-                            >
-                              {data.date}
+              <>
+                <Box className="article-list-container" height="75vh">
+                  {listArticle.slice(0, 5).map((data: any, index: number) => {
+                    return (
+                      <Box className="article-container" key={index}>
+                        <Box className="article-header">
+                          {data.source === `['news']` ? (
+                            <Avatar
+                              icon={<NewsIcon />}
+                              size="sm"
+                              bg="transparent"
+                              data-testid="news-item-header-news-icon"
+                            />
+                          ) : data.source === `['websites_ai']` ? (
+                            <Avatar
+                              icon={<WebsiteAiIcon />}
+                              size="sm"
+                              bg="transparent"
+                              data-testid="news-item-header-website-icon"
+                            />
+                          ) : (
+                            <Avatar
+                              src={DeloitteLogo}
+                              size="xs"
+                              className="article-logo"
+                              data-testid="news-item-header-deloitte-icon"
+                            />
+                          )}
+                          <Box className="header-text-container">
+                            <Text className="article-header-text" color={textColor}>
+                              {String(data.author).toUpperCase() ||
+                                formatSourceToString(data.source).toUpperCase()}
                             </Text>
-                            <Link
-                              color={textColor}
-                              href={data?.url}
-                              isExternal
-                              className="link-icon"
-                              data-testid="link-icon-external-source-container"
-                              onClick={() =>
-                                // update Google Analytics event
-                                ReactGA.event({
-                                  category: "Button click",
-                                  action:
-                                    "Navigate to related articles external URL",
-                                })
-                              }
-                            >
-                              <Icon
-                                as={MdOutlineOpenInNew}
-                                size="lg"
-                                _hover={{
-                                  fill: "#A0AEC0",
-                                }}
-                              />
-                            </Link>
+                            <Box className="external-source-container">
+                              <Text
+                                className="article-header-text"
+                                color={textColor}
+                              >
+                                {data.date}
+                              </Text>
+                              <Link
+                                color={textColor}
+                                href={data?.url}
+                                isExternal
+                                className="link-icon"
+                                data-testid="link-icon-external-source-container"
+                                onClick={() =>
+                                  // update Google Analytics event
+                                  ReactGA.event({
+                                    category: "Button click",
+                                    action:
+                                      "Navigate to related articles external URL",
+                                  })
+                                }
+                              >
+                                <Icon
+                                  as={MdOutlineOpenInNew}
+                                  size="lg"
+                                  _hover={{
+                                    fill: "#A0AEC0",
+                                  }}
+                                />
+                              </Link>
+                            </Box>
                           </Box>
                         </Box>
+                        <Box>
+                          <Text
+                            className="related-article-title"
+                            color={textColor}
+                            onClick={() => openDetailsModal(data)}
+                          >
+                            {data.title}
+                          </Text>
+                        </Box>
+                        <Box className="tag-container">
+                          {listTag[index][0] !== "" && (
+                            <>
+                              {listTag[index].length <= 2 ? (
+                                listTag[index]
+                                  .slice(0, listTag[index].length)
+                                  .map((data: any, key: number) => {
+                                    return (
+                                      <Tag
+                                        className="tag-text"
+                                        key={key}
+                                        color={tagTextColor}
+                                      >
+                                        {data}
+                                      </Tag>
+                                    );
+                                  })
+                              ) : (
+                                <>
+                                  {listTag[index].slice(0, 2).map((data: any, key: number) => {
+                                    return (
+                                      <Tag
+                                        fontSize="8px"
+                                        className="tag-text"
+                                        key={key}
+                                        color={tagTextColor}
+                                      >
+                                        {data}
+                                      </Tag>
+                                    );
+                                  })}
+                                  <Tag
+                                    className="popover-expand"
+                                    color={tagTextColor}
+                                  >
+                                    {`+ ${listTag[index].length - 2}`}
+                                  </Tag>
+                                </>
+                              )}
+                            </>
+                          )}
+                        </Box>
                       </Box>
-                      <Box>
-                        <Text
-                          className="related-article-title"
-                          color={textColor}
-                          onClick={() => openDetailsModal(data)}
-                        >
-                          {data.title}
-                        </Text>
-                      </Box>
-                      <Box className="tag-container">
-                        {listTag[index][0] !== "" && (
-                          <>
-                            {listTag[index].length <= 2 ? (
-                              listTag[index]
-                                .slice(0, listTag[index].length)
-                                .map((data: any, key: number) => {
-                                  return (
-                                    <Tag
-                                      className="tag-text"
-                                      key={key}
-                                      color={tagTextColor}
-                                    >
-                                      {data}
-                                    </Tag>
-                                  );
-                                })
-                            ) : (
-                              <>
-                                {listTag[index].slice(0, 2).map((data: any, key: number) => {
-                                  return (
-                                    <Tag
-                                      fontSize="8px"
-                                      className="tag-text"
-                                      key={key}
-                                      color={tagTextColor}
-                                    >
-                                      {data}
-                                    </Tag>
-                                  );
-                                })}
-                                <Tag
-                                  className="popover-expand"
-                                  color={tagTextColor}
-                                >
-                                  {`+ ${listTag[index].length - 2}`}
-                                </Tag>
-                              </>
-                            )}
-                          </>
-                        )}
-                      </Box>
-                    </Box>
-                  );
-                })}
+                    );
+                  })}
+                </Box>
                 <Button
-                  className="see-all-btn"
+                  className="see-all-text-btn"
                   onClick={() => setSeeAllOpen(true)}
                 >
                   See all
                 </Button>
-              </Box>
+                </>
             )}
           </Box>
         </DrawerContent>

@@ -5,6 +5,7 @@ import {
   Box,
   Button,
   Center,
+  ChakraProvider,
   Drawer,
   DrawerOverlay,
   DrawerContent,
@@ -14,10 +15,10 @@ import {
   Text,
   useColorModeValue,
   useDisclosure,
-  ChakraProvider,
+  useMediaQuery,
 } from "@chakra-ui/react";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { MdOutlineOpenInNew } from "react-icons/md";
 
 import DeloitteLogo from "../../assets/images/deloitte_icon.svg";
@@ -33,6 +34,16 @@ const RelatedArticlesDrawer = ({
   openDetailsModal,
   docs,
 }) => {
+  const [isXl] = useMediaQuery("(min-width: 1280px)");
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    if (isXl) {
+      onClose();
+    }
+  }, [isXl, onClose]);
+
   var listArticle = docs;
   var listTag = [];
 
@@ -56,8 +67,6 @@ const RelatedArticlesDrawer = ({
     "rgba(26, 32, 44, 1)",
   );
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   return (
     <ChakraProvider>
       <IconButton
@@ -78,7 +87,6 @@ const RelatedArticlesDrawer = ({
         <DrawerContent>
           <Box paddingTop="32px">
             <IconButton
-              display={{ base: "block", xl: "none" }}
               icon={<ArrowRightIcon />}
               backgroundColor="transparent"
               border="1px solid #E2E8F0"
@@ -123,127 +131,131 @@ const RelatedArticlesDrawer = ({
                 )}
               </Center>
             ) : (
-              <Box className="article-list-container" height="75vh">
-                {listArticle.slice(0, 5).map((data, index) => {
-                  return (
-                    <Box className="article-container" key={index}>
-                      <Box className="article-header">
-                        {data.source === `['news']` ? (
-                          <Avatar
-                            icon={<NewsIcon />}
-                            size="sm"
-                            bg="transparent"
-                            data-testid="news-item-header-news-icon"
-                          />
-                        ) : data.source === `['websites_ai']` ? (
-                          <Avatar
-                            icon={<WebsiteAiIcon />}
-                            size="sm"
-                            bg="transparent"
-                            data-testid="news-item-header-website-icon"
-                          />
-                        ) : (
-                          <Avatar
-                            src={DeloitteLogo}
-                            size="xs"
-                            className="article-logo"
-                            data-testid="news-item-header-deloitte-icon"
-                          />
-                        )}
-                        <Box className="header-text-container">
-                          <Text
-                            className="article-header-text"
-                            color={textColor}
-                          >
-                            {String(data.author).toUpperCase() ||
-                              formatSourceToString(data.source).toUpperCase()}
-                          </Text>
-                          <Box className="external-source-container">
+              <>
+                <Box className="article-list-container" height="75vh">
+                  {listArticle.slice(0, 5).map((data, index) => {
+                    return (
+                      <Box className="article-container" key={index}>
+                        <Box className="article-header">
+                          {data.source === `['news']` ? (
+                            <Avatar
+                              icon={<NewsIcon />}
+                              size="sm"
+                              bg="transparent"
+                              data-testid="news-item-header-news-icon"
+                            />
+                          ) : data.source === `['websites_ai']` ? (
+                            <Avatar
+                              icon={<WebsiteAiIcon />}
+                              size="sm"
+                              bg="transparent"
+                              data-testid="news-item-header-website-icon"
+                            />
+                          ) : (
+                            <Avatar
+                              src={DeloitteLogo}
+                              size="xs"
+                              className="article-logo"
+                              data-testid="news-item-header-deloitte-icon"
+                            />
+                          )}
+                          <Box className="header-text-container">
                             <Text
                               className="article-header-text"
                               color={textColor}
                             >
-                              {data.date}
+                              {String(data.author).toUpperCase() ||
+                                formatSourceToString(data.source).toUpperCase()}
                             </Text>
-                            <Link
-                              color={textColor}
-                              href={data?.url}
-                              isExternal
-                              className="link-icon"
-                              data-testid="link-icon-external-source-container"
-                            >
-                              <Icon
-                                as={MdOutlineOpenInNew}
-                                size="lg"
-                                _hover={{
-                                  fill: "#A0AEC0",
-                                }}
-                              />
-                            </Link>
+                            <Box className="external-source-container">
+                              <Text
+                                className="article-header-text"
+                                color={textColor}
+                              >
+                                {data.date}
+                              </Text>
+                              <Link
+                                color={textColor}
+                                href={data?.url}
+                                isExternal
+                                className="link-icon"
+                                data-testid="link-icon-external-source-container"
+                              >
+                                <Icon
+                                  as={MdOutlineOpenInNew}
+                                  size="lg"
+                                  _hover={{
+                                    fill: "#A0AEC0",
+                                  }}
+                                />
+                              </Link>
+                            </Box>
                           </Box>
                         </Box>
+                        <Box>
+                          <Text
+                            className="related-article-title"
+                            color={textColor}
+                            onClick={() => openDetailsModal(data)}
+                          >
+                            {data.title}
+                          </Text>
+                        </Box>
+                        <Box className="tag-container">
+                          {listTag[index][0] !== "" && (
+                            <>
+                              {listTag[index].length <= 2 ? (
+                                listTag[index]
+                                  .slice(0, listTag[index].length)
+                                  .map((data, key) => {
+                                    return (
+                                      <Tag
+                                        className="tag-text"
+                                        key={key}
+                                        color={tagTextColor}
+                                      >
+                                        {data}
+                                      </Tag>
+                                    );
+                                  })
+                              ) : (
+                                <>
+                                  {listTag[index]
+                                    .slice(0, 2)
+                                    .map((data, key) => {
+                                      return (
+                                        <Tag
+                                          fontSize="8px"
+                                          className="tag-text"
+                                          key={key}
+                                          color={tagTextColor}
+                                        >
+                                          {data}
+                                        </Tag>
+                                      );
+                                    })}
+                                  <Tag
+                                    className="popover-expand"
+                                    color={tagTextColor}
+                                  >
+                                    {`+ ${listTag[index].length - 2}`}
+                                  </Tag>
+                                </>
+                              )}
+                            </>
+                          )}
+                        </Box>
                       </Box>
-                      <Box>
-                        <Text
-                          className="related-article-title"
-                          color={textColor}
-                          onClick={() => openDetailsModal(data)}
-                        >
-                          {data.title}
-                        </Text>
-                      </Box>
-                      <Box className="tag-container">
-                        {listTag[index][0] !== "" && (
-                          <>
-                            {listTag[index].length <= 2 ? (
-                              listTag[index]
-                                .slice(0, listTag[index].length)
-                                .map((data, key) => {
-                                  return (
-                                    <Tag
-                                      className="tag-text"
-                                      key={key}
-                                      color={tagTextColor}
-                                    >
-                                      {data}
-                                    </Tag>
-                                  );
-                                })
-                            ) : (
-                              <>
-                                {listTag[index].slice(0, 2).map((data, key) => {
-                                  return (
-                                    <Tag
-                                      fontSize="8px"
-                                      className="tag-text"
-                                      key={key}
-                                      color={tagTextColor}
-                                    >
-                                      {data}
-                                    </Tag>
-                                  );
-                                })}
-                                <Tag
-                                  className="popover-expand"
-                                  color={tagTextColor}
-                                >
-                                  {`+ ${listTag[index].length - 2}`}
-                                </Tag>
-                              </>
-                            )}
-                          </>
-                        )}
-                      </Box>
-                    </Box>
-                  );
-                })}
+                    );
+                  })}
+                </Box>
                 <Button
-                  className="see-all-btn"
+                  className="see-all-text-btn"
                   onClick={() => setSeeAllOpen(true)}
                 >
                   See all
                 </Button>
-              </Box>
+              </>
             )}
           </Box>
         </DrawerContent>
