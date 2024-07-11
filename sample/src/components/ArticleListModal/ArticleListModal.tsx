@@ -28,7 +28,6 @@ import {
   Tag,
   TagCloseButton,
   Text,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
 import { MdOutlineOpenInNew } from "react-icons/md";
@@ -127,10 +126,6 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   // State to track the presence of the search tag
   const [searchTagPresent, setSearchTagPresent] = useState(false);
-
-  const modalColor = useColorModeValue("white", "var(--gray-800, #1A202C);");
-  const backgroundColor = useColorModeValue("", "var(--gray-800, #1A202C);");
-  const paginateTextColor = useColorModeValue("page-link", "page-link-dark");
 
   // Function to handle sorting option change
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -294,10 +289,10 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
     <ChakraProvider>
       <Modal isOpen={isOpen} onClose={onClose} size="full" scrollBehavior="inside">
         <ModalOverlay />
-        <ModalContent backgroundColor={backgroundColor} maxHeight="100%">
+        <ModalContent backgroundColor={"white"} maxHeight="100%">
           <ModalHeader>Related Articles</ModalHeader>
           <ModalCloseButton onClick={() => setSeeAllOpen(false)} />
-          <ModalBody className="modal-container" backgroundColor={modalColor}>
+          <ModalBody className="modal-container" backgroundColor={"white"}>
             <Box className="filter-container">
               <Box className="category-filter-container">
                 <Text className="filter-header">
@@ -534,14 +529,14 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                     pageCount={pageCount}
                     previousLabel="<"
                     pageClassName="page-item"
-                    pageLinkClassName={paginateTextColor}
+                    pageLinkClassName="page-link"
                     previousClassName="page-item"
-                    previousLinkClassName={paginateTextColor}
+                    previousLinkClassName="page-link"
                     nextClassName="page-item"
-                    nextLinkClassName={paginateTextColor}
+                    nextLinkClassName="page-link"
                     breakLabel="..."
                     breakClassName="page-item"
-                    breakLinkClassName={paginateTextColor}
+                    breakLinkClassName="page-link"
                     containerClassName="pagination"
                     activeClassName="active"
                     renderOnZeroPageCount={null}

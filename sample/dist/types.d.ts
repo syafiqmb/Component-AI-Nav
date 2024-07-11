@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React$1, { MouseEventHandler, FC } from 'react';
 import * as react_jsx_runtime from 'react/jsx-runtime';
 import PropTypes from 'prop-types';

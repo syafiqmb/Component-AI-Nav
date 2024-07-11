@@ -273,7 +273,6 @@ const RelatedArticles = ({
                             <Text
                               className="related-article-title"
                               data-testid="article-title-article-container"
-                              color={textColor}
                               onClick={() => openDetailsModal(data)}
                             >
                               {data.title}
