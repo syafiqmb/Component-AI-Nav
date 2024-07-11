@@ -90,6 +90,10 @@ interface ArticleListModalProps {
       url: string,
     }
   ],
+  iconBgColor: string,
+  iconColor: string,
+  tagBgColor: string,
+  tagTextColor: string,
 }
 
 const ArticleListModal: FC<ArticleListModalProps> = ({ 
@@ -99,6 +103,10 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
   isOpen,
   onClose,
   data,
+  iconBgColor,
+  iconColor,
+  tagBgColor,
+  tagTextColor,
 }) => {
   const [currentItems, setCurrentItems] = useState<ItemType[] | null>(null);
   const [pageCount, setPageCount] = useState(0);
@@ -120,15 +128,6 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
   // State to track the presence of the search tag
   const [searchTagPresent, setSearchTagPresent] = useState(false);
 
-  // defining color for dark & light mode
-  const titleColor = useColorModeValue(
-    "rgba(32, 33, 35, 1)",
-    "rgba(255, 255, 255, 0.8)",
-  );
-  const tagTextColor = useColorModeValue(
-    "rgba(26, 32, 44, 1)",
-    "rgba(26, 32, 44, 1)",
-  );
   const modalColor = useColorModeValue("white", "var(--gray-800, #1A202C);");
   const backgroundColor = useColorModeValue("", "var(--gray-800, #1A202C);");
   const paginateTextColor = useColorModeValue("page-link", "page-link-dark");
@@ -293,7 +292,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
 
   return (
     <ChakraProvider>
-      <Modal isOpen={isOpen} onClose={onClose} size="full">
+      <Modal isOpen={isOpen} onClose={onClose} size="full" scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent backgroundColor={backgroundColor} maxHeight="100%">
           <ModalHeader>Related Articles</ModalHeader>
@@ -301,7 +300,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
           <ModalBody className="modal-container" backgroundColor={modalColor}>
             <Box className="filter-container">
               <Box className="category-filter-container">
-                <Text className="filter-header" color={titleColor}>
+                <Text className="filter-header">
                   Category
                 </Text>
                 <Checkbox
@@ -342,7 +341,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                 </Checkbox>
               </Box>
               <Box className="word-filter-container">
-                <Text className="filter-header" color={titleColor}>
+                <Text className="filter-header">
                   Topic or Keyword
                 </Text>
                 <InputGroup>
@@ -368,7 +367,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
 
             <Box className="list-container">
               <Box className="list-container-header">
-                <Text color={titleColor}>
+                <Text>
                   {filteredDataLength} related articles found
                 </Text>
                 <Box className="sort-dropdown-wrapper">
@@ -415,14 +414,24 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                         <Box className="article-logo-container">
                           {item.source === `['news']` ? (
                             <Avatar
-                              icon={<NewsIcon />}
+                              icon={
+                                <NewsIcon
+                                  iconBgColor={iconBgColor}
+                                  iconColor={iconColor}
+                                />
+                              }
                               size="sm"
                               bg="transparent"
                               data-testid="article-logo-news-icon"
                             />
                           ) : item.source === `['websites_ai']` ? (
                             <Avatar
-                              icon={<WebsiteAiIcon />}
+                              icon={
+                                <WebsiteAiIcon
+                                  iconBgColor={iconBgColor}
+                                  iconColor={iconColor}
+                                />
+                              }
                               size="sm"
                               bg="transparent"
                               data-testid="article-logo-website-icon"
@@ -435,13 +444,13 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                               data-testid="article-logo-deloitte-icon"
                             />
                           )}
-                          <Text className="article-author" color={titleColor}>
+                          <Text className="article-author">
                             {String(item.author).toUpperCase() ||
                               formatSourceToString(item.source).toUpperCase()}
                           </Text>
                         </Box>
                         <Box className="article-logo-container">
-                          <Text className="article-date" color={titleColor}>
+                          <Text className="article-date">
                             {item.date}
                           </Text>
                           <Link href={item.url} isExternal>
@@ -462,7 +471,6 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                           <PopoverTrigger>
                             <Text
                               className="article-title"
-                              color={titleColor}
                               onClick={() => {
                                 openDetailsModal(item);
                               }}
@@ -474,7 +482,6 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                             <PopoverArrow />
                             <PopoverBody>
                               <Text
-                                color={titleColor}
                                 className="article-summary"
                                 noOfLines={10}
                                 align={"left"}
@@ -484,7 +491,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                             </PopoverBody>
                           </PopoverContent>
                         </Popover>
-                        <Text className="article-text" color={titleColor}>
+                        <Text className="article-text">
                           {item.description}
                         </Text>
                       </Box>
@@ -497,6 +504,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                                 className="tag-text"
                                 key={index}
                                 color={tagTextColor}
+                                background={tagBgColor}
                               >
                                 {data}
                               </Tag>
@@ -508,7 +516,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                   ))}
               </Box>
               <Box className="pagination-container">
-                <Text className="pagination-details" color={titleColor}>
+                <Text className="pagination-details">
                   {filteredDataLength === 0
                     ? `Showing 0 record`
                     : `Showing ${itemOffset + 1} to ${

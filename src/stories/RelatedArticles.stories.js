@@ -42,6 +42,11 @@ const meta = {
         url: "string",
       }
     ],
+    tagBgColor: "string",
+    tagTextColor: "string",
+    iconBgColor: "string",
+    iconColor: "string",
+    textLinkColor: "string",
   },
 };
 
@@ -112,6 +117,11 @@ Primary.args = {
       url: "https://www.deloitte.com/global/en.html",
     }
   ],
+  tagBgColor: "red",
+  tagTextColor: "white",
+  iconBgColor: "pink",
+  iconColor: "black",
+  textLinkColor: "blue",
 };
 
 export const Secondary = Template.bind({});
@@ -140,6 +150,11 @@ Secondary.args = {
       url: "https://www.deloitte.com/global/en.html",
     }
   ],
+  tagBgColor: "red",
+  tagTextColor: "white",
+  iconBgColor: "pink",
+  iconColor: "black",
+  textLinkColor: "blue",
 };
 
 export const Third = Template.bind({});
@@ -169,4 +184,9 @@ Third.args = {
       url: "https://www.deloitte.com/global/en.html",
     }
   ],
+  tagBgColor: "red",
+  tagTextColor: "white",
+  iconBgColor: "pink",
+  iconColor: "black",
+  textLinkColor: "blue",
 };

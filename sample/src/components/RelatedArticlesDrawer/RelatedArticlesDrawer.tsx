@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { ArrowLeftIcon, ArrowRightIcon, Icon } from "@chakra-ui/icons";
 import "./RelatedArticlesDrawer.css";
 import {
@@ -13,13 +14,11 @@ import {
   Link,
   Tag,
   Text,
-  useColorModeValue,
   useDisclosure,
   useMediaQuery,
 } from "@chakra-ui/react";
 
 import { FC, useEffect } from "react";
-import ReactGA from "react-ga4";
 import { MdOutlineOpenInNew } from "react-icons/md";
 
 import DeloitteLogo from "../../assets/images/deloitte_icon.svg";
@@ -54,9 +53,26 @@ interface RelatedArticlesDrawerProps {
       url: string,
     }
   ],
+  tagBgColor: string,
+  tagTextColor: string,
+  iconBgColor: string,
+  iconColor: string,
+  textLinkColor: string,
 }
 
-const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({ isFile, isLoading, setSeeAllOpen, openDetailsModal, docs }) => {
+const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({ 
+  isFile,
+  isLoading,
+  setSeeAllOpen,
+  openDetailsModal,
+  docs,
+  tagBgColor,
+  tagTextColor,
+  iconBgColor,
+  iconColor,
+  textLinkColor,
+
+}) => {
   const [isXl] = useMediaQuery("(min-width: 1280px)");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -79,16 +95,6 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({ isFile, isLoadi
   listArticle.sort((a: any, b: any) => {
     return b.distance - a.distance; // Sort in descending order (latest first)
   });
-
-  // defining color for dark & light mode
-  const textColor = useColorModeValue(
-    "#202123",
-    "var(--white-alpha-800, rgba(255, 255, 255, 0.80))",
-  );
-  const tagTextColor = useColorModeValue(
-    "rgba(26, 32, 44, 1)",
-    "rgba(26, 32, 44, 1)",
-  );
 
   return (
     <ChakraProvider>
@@ -121,11 +127,7 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({ isFile, isLoadi
               marginBottom="24px"
               onClick={onClose}
             />
-            <Text
-              className="related-articles-title"
-              color={textColor}
-              paddingBottom="24px"
-            >
+            <Text className="related-articles-title" paddingBottom="24px">
               Related Articles
             </Text>
             {listArticle.length < 1 ? (
@@ -164,14 +166,20 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({ isFile, isLoadi
                         <Box className="article-header">
                           {data.source === `['news']` ? (
                             <Avatar
-                              icon={<NewsIcon />}
+                              icon={<NewsIcon
+                                      iconBgColor={iconBgColor}
+                                      iconColor={iconColor}
+                                    />}
                               size="sm"
                               bg="transparent"
                               data-testid="news-item-header-news-icon"
                             />
                           ) : data.source === `['websites_ai']` ? (
                             <Avatar
-                              icon={<WebsiteAiIcon />}
+                              icon={<WebsiteAiIcon 
+                                      iconBgColor={iconBgColor}
+                                      iconColor={iconColor}
+                                    />}
                               size="sm"
                               bg="transparent"
                               data-testid="news-item-header-website-icon"
@@ -185,35 +193,24 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({ isFile, isLoadi
                             />
                           )}
                           <Box className="header-text-container">
-                            <Text className="article-header-text" color={textColor}>
+                            <Text className="article-header-text">
                               {String(data.author).toUpperCase() ||
                                 formatSourceToString(data.source).toUpperCase()}
                             </Text>
                             <Box className="external-source-container">
-                              <Text
-                                className="article-header-text"
-                                color={textColor}
-                              >
+                              <Text className="article-header-text">
                                 {data.date}
                               </Text>
                               <Link
-                                color={textColor}
                                 href={data?.url}
                                 isExternal
                                 className="link-icon"
                                 data-testid="link-icon-external-source-container"
-                                onClick={() =>
-                                  // update Google Analytics event
-                                  ReactGA.event({
-                                    category: "Button click",
-                                    action:
-                                      "Navigate to related articles external URL",
-                                  })
-                                }
                               >
                                 <Icon
                                   as={MdOutlineOpenInNew}
                                   size="lg"
+                                  color={textLinkColor}
                                   _hover={{
                                     fill: "#A0AEC0",
                                   }}
@@ -225,7 +222,6 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({ isFile, isLoadi
                         <Box>
                           <Text
                             className="related-article-title"
-                            color={textColor}
                             onClick={() => openDetailsModal(data)}
                           >
                             {data.title}
@@ -243,6 +239,7 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({ isFile, isLoadi
                                         className="tag-text"
                                         key={key}
                                         color={tagTextColor}
+                                        background={tagBgColor}
                                       >
                                         {data}
                                       </Tag>
@@ -257,6 +254,7 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({ isFile, isLoadi
                                         className="tag-text"
                                         key={key}
                                         color={tagTextColor}
+                                        background={tagBgColor}
                                       >
                                         {data}
                                       </Tag>
@@ -265,6 +263,7 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({ isFile, isLoadi
                                   <Tag
                                     className="popover-expand"
                                     color={tagTextColor}
+                                    background={tagBgColor}
                                   >
                                     {`+ ${listTag[index].length - 2}`}
                                   </Tag>

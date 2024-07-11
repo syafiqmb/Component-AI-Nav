@@ -18,7 +18,6 @@ import {
   PopoverTrigger,
   Tag,
   Text,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -36,6 +35,11 @@ const RelatedArticles = ({
   isLoading,
   isFile,
   docs,
+  tagBgColor,
+  tagTextColor,
+  iconBgColor,
+  iconColor,
+  textLinkColor,
 }) => {
   const [articleSidebarOpen, setArticleSidebarOpen] = useState(true);
 
@@ -51,16 +55,6 @@ const RelatedArticles = ({
   listArticle.sort((a, b) => {
     return b.distance - a.distance;
   });
-
-  // defining color for dark & light mode
-  const textColor = useColorModeValue(
-    "#202123",
-    "var(--white-alpha-800, rgba(255, 255, 255, 0.80))",
-  );
-  const tagTextColor = useColorModeValue(
-    "rgba(26, 32, 44, 1)",
-    "rgba(26, 32, 44, 1)",
-  );
 
   // function to trigger sidebar open / close
   const handleClick = () => {
@@ -155,7 +149,6 @@ const RelatedArticles = ({
                 />
                 <Text
                   className="related-articles-title"
-                  color={textColor}
                   data-testid="related-articles-title"
                 >
                   Related Articles
@@ -206,14 +199,24 @@ const RelatedArticles = ({
                         >
                           {data.source === `['news']` ? (
                             <Avatar
-                              icon={<NewsIcon />}
+                              icon={
+                                <NewsIcon
+                                  iconBgColor={iconBgColor}
+                                  iconColor={iconColor}
+                                />
+                              }
                               size="sm"
                               bg="transparent"
                               data-testid="related-articles-list-news-icon"
                             />
                           ) : data.source === `['websites_ai']` ? (
                             <Avatar
-                              icon={<WebsiteAiIcon />}
+                              icon={
+                                <WebsiteAiIcon
+                                  iconBgColor={iconBgColor}
+                                  iconColor={iconColor}
+                                />
+                              }
                               size="sm"
                               bg="transparent"
                               data-testid="related-articles-list-webisite-icon"
@@ -232,7 +235,6 @@ const RelatedArticles = ({
                           >
                             <Text
                               className="article-header-text"
-                              color={textColor}
                               data-testid="related-articles-list-content-header-text"
                             >
                               {String(data.author) ||
@@ -244,13 +246,11 @@ const RelatedArticles = ({
                             >
                               <Text
                                 className="article-header-text"
-                                color={textColor}
                                 data-testid="related-articles-list-content-date"
                               >
                                 {moment(data.date).format("DD MMM YYYY")}
                               </Text>
                               <Link
-                                color={textColor}
                                 href={data?.url}
                                 isExternal
                                 className="link-icon"
@@ -258,6 +258,7 @@ const RelatedArticles = ({
                               >
                                 <Icon
                                   as={MdOutlineOpenInNew}
+                                  color={textLinkColor}
                                   _hover={{
                                     fill: "#A0AEC0",
                                   }}
@@ -303,6 +304,7 @@ const RelatedArticles = ({
                                         className="tag-text"
                                         key={key}
                                         color={tagTextColor}
+                                        background={tagBgColor}
                                       >
                                         {data}
                                       </Tag>
@@ -318,6 +320,7 @@ const RelatedArticles = ({
                                           className="tag-text"
                                           key={key}
                                           color={tagTextColor}
+                                          background={tagBgColor}
                                         >
                                           {data}
                                         </Tag>
@@ -329,6 +332,7 @@ const RelatedArticles = ({
                                         <Tag
                                           className="popover-expand"
                                           color={tagTextColor}
+                                          background={tagBgColor}
                                         >
                                           {listTag[index].length <= 5
                                             ? `+${

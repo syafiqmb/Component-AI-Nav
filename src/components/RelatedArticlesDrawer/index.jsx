@@ -13,7 +13,6 @@ import {
   Link,
   Tag,
   Text,
-  useColorModeValue,
   useDisclosure,
   useMediaQuery,
 } from "@chakra-ui/react";
@@ -33,6 +32,11 @@ const RelatedArticlesDrawer = ({
   setSeeAllOpen,
   openDetailsModal,
   docs,
+  tagBgColor,
+  tagTextColor,
+  iconBgColor,
+  iconColor,
+  textLinkColor,
 }) => {
   const [isXl] = useMediaQuery("(min-width: 1280px)");
 
@@ -56,16 +60,6 @@ const RelatedArticlesDrawer = ({
   listArticle.sort((a, b) => {
     return b.distance - a.distance; // Sort in descending order (latest first)
   });
-
-  // defining color for dark & light mode
-  const textColor = useColorModeValue(
-    "#202123",
-    "var(--white-alpha-800, rgba(255, 255, 255, 0.80))",
-  );
-  const tagTextColor = useColorModeValue(
-    "rgba(26, 32, 44, 1)",
-    "rgba(26, 32, 44, 1)",
-  );
 
   return (
     <ChakraProvider>
@@ -96,11 +90,7 @@ const RelatedArticlesDrawer = ({
               marginBottom="24px"
               onClick={onClose}
             />
-            <Text
-              className="related-articles-title"
-              color={textColor}
-              paddingBottom="24px"
-            >
+            <Text className="related-articles-title" paddingBottom="24px">
               Related Articles
             </Text>
             {listArticle.length === 0 ? (
@@ -139,14 +129,24 @@ const RelatedArticlesDrawer = ({
                         <Box className="article-header">
                           {data.source === `['news']` ? (
                             <Avatar
-                              icon={<NewsIcon />}
+                              icon={
+                                <NewsIcon
+                                  iconBgColor={iconBgColor}
+                                  iconColor={iconColor}
+                                />
+                              }
                               size="sm"
                               bg="transparent"
                               data-testid="news-item-header-news-icon"
                             />
                           ) : data.source === `['websites_ai']` ? (
                             <Avatar
-                              icon={<WebsiteAiIcon />}
+                              icon={
+                                <WebsiteAiIcon
+                                  iconBgColor={iconBgColor}
+                                  iconColor={iconColor}
+                                />
+                              }
                               size="sm"
                               bg="transparent"
                               data-testid="news-item-header-website-icon"
@@ -160,22 +160,15 @@ const RelatedArticlesDrawer = ({
                             />
                           )}
                           <Box className="header-text-container">
-                            <Text
-                              className="article-header-text"
-                              color={textColor}
-                            >
+                            <Text className="article-header-text">
                               {String(data.author).toUpperCase() ||
                                 formatSourceToString(data.source).toUpperCase()}
                             </Text>
                             <Box className="external-source-container">
-                              <Text
-                                className="article-header-text"
-                                color={textColor}
-                              >
+                              <Text className="article-header-text">
                                 {data.date}
                               </Text>
                               <Link
-                                color={textColor}
                                 href={data?.url}
                                 isExternal
                                 className="link-icon"
@@ -184,6 +177,7 @@ const RelatedArticlesDrawer = ({
                                 <Icon
                                   as={MdOutlineOpenInNew}
                                   size="lg"
+                                  color={textLinkColor}
                                   _hover={{
                                     fill: "#A0AEC0",
                                   }}
@@ -195,7 +189,6 @@ const RelatedArticlesDrawer = ({
                         <Box>
                           <Text
                             className="related-article-title"
-                            color={textColor}
                             onClick={() => openDetailsModal(data)}
                           >
                             {data.title}
@@ -213,6 +206,7 @@ const RelatedArticlesDrawer = ({
                                         className="tag-text"
                                         key={key}
                                         color={tagTextColor}
+                                        background={tagBgColor}
                                       >
                                         {data}
                                       </Tag>
@@ -229,6 +223,7 @@ const RelatedArticlesDrawer = ({
                                           className="tag-text"
                                           key={key}
                                           color={tagTextColor}
+                                          background={tagBgColor}
                                         >
                                           {data}
                                         </Tag>
@@ -237,6 +232,7 @@ const RelatedArticlesDrawer = ({
                                   <Tag
                                     className="popover-expand"
                                     color={tagTextColor}
+                                    background={tagBgColor}
                                   >
                                     {`+ ${listTag[index].length - 2}`}
                                   </Tag>
