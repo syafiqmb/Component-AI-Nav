@@ -1,5 +1,5 @@
+/* eslint-disable prettier/prettier */
 import "./RelatedArticles.css";
-
 import { ArrowLeftIcon, ArrowRightIcon, Icon } from "@chakra-ui/icons";
 import {
   Avatar,
@@ -135,6 +135,7 @@ const RelatedArticles = ({
             >
               <Flex flexDirection="row">
                 <IconButton
+                  aria-label="Close related articles panel"
                   icon={
                     <ArrowRightIcon
                       data-testid="related-articles-collapse-button-icon"
@@ -144,7 +145,7 @@ const RelatedArticles = ({
                   }
                   size="sm"
                   className="collapse-button"
-                  data-testid="collapse-button-related-articles-container"
+                  data-testid="related-articles-collapse-button"
                   onClick={handleClick}
                 />
                 <Text
@@ -191,7 +192,7 @@ const RelatedArticles = ({
                       <Box
                         className="article-container"
                         key={index}
-                        data-testid="related-articles-list-wrapper"
+                        data-testid="related-article-item-list"
                       >
                         <Box
                           className="article-header"
@@ -219,7 +220,7 @@ const RelatedArticles = ({
                               }
                               size="sm"
                               bg="transparent"
-                              data-testid="related-articles-list-webisite-icon"
+                              data-testid="related-article-item-icon"
                             />
                           ) : (
                             <Avatar
@@ -235,7 +236,7 @@ const RelatedArticles = ({
                           >
                             <Text
                               className="article-header-text"
-                              data-testid="related-articles-list-content-header-text"
+                              data-testid="related-article-item-header"
                             >
                               {String(data.author) ||
                                 formatSourceToString(data.source)}
@@ -246,7 +247,7 @@ const RelatedArticles = ({
                             >
                               <Text
                                 className="article-header-text"
-                                data-testid="related-articles-list-content-date"
+                                data-testid="related-article-item-date"
                               >
                                 {moment(data.date).format("DD MMM YYYY")}
                               </Text>
@@ -254,7 +255,7 @@ const RelatedArticles = ({
                                 href={data?.url}
                                 isExternal
                                 className="link-icon"
-                                data-testid="related-articles-list-content-external-link"
+                                data-testid="related-article-item-source-icon"
                               >
                                 <Icon
                                   as={MdOutlineOpenInNew}
@@ -272,7 +273,7 @@ const RelatedArticles = ({
                           <PopoverTrigger>
                             <Text
                               className="related-article-title"
-                              data-testid="article-title-article-container"
+                              data-testid="related-article-item-title"
                               onClick={() => openDetailsModal(data)}
                             >
                               {data.title}
@@ -280,8 +281,9 @@ const RelatedArticles = ({
                           </PopoverTrigger>
                           <PopoverContent>
                             <PopoverArrow />
-                            <PopoverBody>
+                            <PopoverBody data-testid="related-article-item-tag-popover-container">
                               <Text
+                                data-testid="related-article-item-tag-popover-item"
                                 className="article-summary"
                                 noOfLines={10}
                                 align={"left"}
@@ -291,7 +293,10 @@ const RelatedArticles = ({
                             </PopoverBody>
                           </PopoverContent>
                         </Popover>
-                        <Box className="tag-container">
+                        <Box
+                          className="tag-container"
+                          data-testid="related-article-item-tag-container"
+                        >
                           {listTag[index][0] !== "" && (
                             <>
                               {listTag[index].length <= 2 ? (
@@ -330,6 +335,7 @@ const RelatedArticles = ({
                                       <PopoverTrigger>
                                         <Tag
                                           className="popover-expand"
+                                          data-testid="related-article-item-tag-popover"
                                           color={tagTextColor}
                                           background={tagBgColor}
                                         >
@@ -369,6 +375,7 @@ const RelatedArticles = ({
                   })}
                   <Button
                     className="see-all-btn"
+                    data-testid="related-articles-see-all-button"
                     onClick={() => setSeeAllOpen(true)}
                   >
                     See all
@@ -379,11 +386,12 @@ const RelatedArticles = ({
           </>
         ) : (
           <IconButton
+            aria-label="Open related articles panel"
             icon={<ArrowLeftIcon width="10px" minHeight="40px !important" />}
             size="sm"
             onClick={handleClick}
             className="expand-button"
-            data-testid="expand-button-related-article-container"
+            data-testid="related-articles-expand-button"
           />
         )}
       </Box>

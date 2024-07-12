@@ -30,36 +30,36 @@ import NewsIcon from "../../assets/icons/newsIcon";
 import WebsiteAiIcon from "../../assets/icons/websiteAiIcon";
 
 interface RelatedArticlesProps {
-  setSeeAllOpen: React.Dispatch<React.SetStateAction<boolean>>,
-  openDetailsModal: (data: any) => void,
-  isLoading: boolean,
-  isFile: boolean,
+  setSeeAllOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  openDetailsModal: (data: any) => void;
+  isLoading: boolean;
+  isFile: boolean;
   docs: [
     {
-      article: string,
-      author: string,
-      date: string,
-      description: string,
-      distance: number,
+      article: string;
+      author: string;
+      date: string;
+      description: string;
+      distance: number;
       facets: [
         {
-            content: string,
-            header: string,
-        }
-      ],
-      id: string,
-      source: string,
-      summary: string,
-      tags: string,
-      title: string,
-      url: string,
-    }
-  ],
-  tagBgColor: string,
-  tagTextColor: string,
-  iconBgColor: string,
-  iconColor: string,
-  textLinkColor: string,
+          content: string;
+          header: string;
+        },
+      ];
+      id: string;
+      source: string;
+      summary: string;
+      tags: string;
+      title: string;
+      url: string;
+    },
+  ];
+  tagBgColor: string;
+  tagTextColor: string;
+  iconBgColor: string;
+  iconColor: string;
+  textLinkColor: string;
 }
 
 const RelatedArticles: FC<RelatedArticlesProps> = ({
@@ -75,7 +75,7 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({
   textLinkColor,
 }) => {
   const [articleSidebarOpen, setArticleSidebarOpen] = useState(true);
-  
+
   var listArticle = docs;
   var listTag: any[] = [];
 
@@ -178,7 +178,7 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({
                   }
                   size="sm"
                   className="collapse-button"
-                  data-testid="collapse-button-related-articles-container"
+                  data-testid="related-articles-collapse-button"
                   onClick={handleClick}
                 />
                 <Text
@@ -210,8 +210,8 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({
                       data-testid="related-articles-no-article-found-description"
                       textAlign="center"
                     >
-                      Questions about uploaded files are specific and do not have
-                      related articles.
+                      Questions about uploaded files are specific and do not
+                      have related articles.
                     </Text>
                   )}
                 </Center>
@@ -225,7 +225,7 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({
                       <Box
                         className="article-container"
                         key={index}
-                        data-testid="related-articles-list-wrapper"
+                        data-testid="related-article-item-list"
                       >
                         <Box
                           className="article-header"
@@ -233,23 +233,27 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({
                         >
                           {data.source === `['news']` ? (
                             <Avatar
-                              icon={<NewsIcon 
-                                iconBgColor={iconBgColor}
-                                iconColor={iconColor}
-                              />}
+                              icon={
+                                <NewsIcon
+                                  iconBgColor={iconBgColor}
+                                  iconColor={iconColor}
+                                />
+                              }
                               size="sm"
                               bg="transparent"
                               data-testid="related-articles-list-news-icon"
                             />
                           ) : data.source === `['websites_ai']` ? (
                             <Avatar
-                              icon={<WebsiteAiIcon 
-                                iconBgColor={iconBgColor}
-                                iconColor={iconColor}
-                                />}
+                              icon={
+                                <WebsiteAiIcon
+                                  iconBgColor={iconBgColor}
+                                  iconColor={iconColor}
+                                />
+                              }
                               size="sm"
                               bg="transparent"
-                              data-testid="related-articles-list-webisite-icon"
+                              data-testid="related-article-item-icon"
                             />
                           ) : (
                             <Avatar
@@ -265,7 +269,7 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({
                           >
                             <Text
                               className="article-header-text"
-                              data-testid="related-articles-list-content-header-text"
+                              data-testid="related-article-item-header"
                             >
                               {String(data.author) ||
                                 formatSourceToString(data.source)}
@@ -276,7 +280,7 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({
                             >
                               <Text
                                 className="article-header-text"
-                                data-testid="related-articles-list-content-date"
+                                data-testid="related-article-item-date"
                               >
                                 {moment(data.date).format("DD MMM YYYY")}
                               </Text>
@@ -284,7 +288,7 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({
                                 href={data?.url}
                                 isExternal
                                 className="link-icon"
-                                data-testid="related-articles-list-content-external-link"
+                                data-testid="related-article-item-source-icon"
                               >
                                 <Icon
                                   as={MdOutlineOpenInNew}
@@ -302,7 +306,7 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({
                           <PopoverTrigger>
                             <Text
                               className="related-article-title"
-                              data-testid="article-title-article-container"
+                              data-testid="related-article-item-title"
                               onClick={() => openDetailsModal(data)}
                             >
                               {data.title}
@@ -310,8 +314,9 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({
                           </PopoverTrigger>
                           <PopoverContent>
                             <PopoverArrow />
-                            <PopoverBody>
+                            <PopoverBody data-testid="related-article-item-tag-popover-container">
                               <Text
+                                data-testid="related-article-item-tag-popover-item"
                                 className="article-summary"
                                 noOfLines={10}
                                 align={"left"}
@@ -321,7 +326,10 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({
                             </PopoverBody>
                           </PopoverContent>
                         </Popover>
-                        <Box className="tag-container">
+                        <Box
+                          className="tag-container"
+                          data-testid="related-article-item-tag-container"
+                        >
                           {listTag[index][0] !== "" && (
                             <>
                               {listTag[index].length <= 2 ? (
@@ -360,6 +368,7 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({
                                       <PopoverTrigger>
                                         <Tag
                                           className="popover-expand"
+                                          data-testid="related-article-item-tag-popover"
                                           color={tagTextColor}
                                           background={tagBgColor}
                                         >
@@ -399,6 +408,7 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({
                   })}
                   <Button
                     className="see-all-btn"
+                    data-testid="related-articles-see-all-button"
                     onClick={() => setSeeAllOpen(true)}
                   >
                     See all
@@ -414,7 +424,7 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({
             size="sm"
             onClick={handleClick}
             className="expand-button"
-            data-testid="expand-button-related-article-container"
+            data-testid="related-articles-expand-button"
           />
         )}
       </Box>

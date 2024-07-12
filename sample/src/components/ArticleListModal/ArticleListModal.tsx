@@ -43,59 +43,59 @@ import WebsiteAiIcon from "../../assets/icons/websiteAiIcon";
 const itemsPerPage = 10;
 
 type ItemType = {
-	article: string,
-  author: string,
-  date: string,
-  description: string,
-  distance: number,
+  article: string;
+  author: string;
+  date: string;
+  description: string;
+  distance: number;
   facets: [
     {
-      content: string,
-      header: string,
-    }
-  ],
-  id: string,
-  source: string,
-  summary: string,
-  tags: string,
-  title: string,
-  url: string,
+      content: string;
+      header: string;
+    },
+  ];
+  id: string;
+  source: string;
+  summary: string;
+  tags: string;
+  title: string;
+  url: string;
 };
 
 interface ArticleListModalProps {
-  setSeeAllOpen: React.Dispatch<React.SetStateAction<boolean>>,
-  openDetailsModal: (data: ItemType) => void,
-  chatId: string,
-	isOpen: boolean,
-  onClose: () => void,
-	data: [
+  setSeeAllOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  openDetailsModal: (data: ItemType) => void;
+  chatId: string;
+  isOpen: boolean;
+  onClose: () => void;
+  data: [
     {
-      article: string,
-      author: string,
-      date: string,
-      description: string,
-      distance: number,
+      article: string;
+      author: string;
+      date: string;
+      description: string;
+      distance: number;
       facets: [
-          {
-              content: string,
-              header: string,
-          }
-      ],
-      id: string,
-      source: string,
-      summary: string,
-      tags: string,
-      title: string,
-      url: string,
-    }
-  ],
-  iconBgColor: string,
-  iconColor: string,
-  tagBgColor: string,
-  tagTextColor: string,
+        {
+          content: string;
+          header: string;
+        },
+      ];
+      id: string;
+      source: string;
+      summary: string;
+      tags: string;
+      title: string;
+      url: string;
+    },
+  ];
+  iconBgColor: string;
+  iconColor: string;
+  tagBgColor: string;
+  tagTextColor: string;
 }
 
-const ArticleListModal: FC<ArticleListModalProps> = ({ 
+const ArticleListModal: FC<ArticleListModalProps> = ({
   setSeeAllOpen,
   openDetailsModal,
   chatId,
@@ -117,7 +117,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
   // Initialize filter categories and filter keyword
   const [selected, setSelected] = useState<string[]>([]);
   const [searchKeyword, setSearchKeyword] = useState("");
-	const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState("");
 
   // Initialize sorting option to relevance by default
   const [sortOption, setSortOption] = useState("relevance");
@@ -140,9 +140,9 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
     }
     if (sortOption === "latest") {
       // Sort by the date field in descending order for latest
-			const dateA = new Date(a.date);
-			const dateB = new Date(b.date);
-			return dateB.getTime() - dateA.getTime();
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateB.getTime() - dateA.getTime();
     }
     return 0; // No sorting
   });
@@ -247,7 +247,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
         setSearchTagPresent(false);
       }
       // Remove focus from the input element when the Enter key is pressed
-			e.currentTarget.blur();
+      e.currentTarget.blur();
     }
   };
 
@@ -278,7 +278,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
   };
 
   // Invoke when user clicks to navigate to another page
-  const handlePageClick = (e: {selected: number}) => {
+  const handlePageClick = (e: { selected: number }) => {
     const newOffset = (e.selected * itemsPerPage) % filteredDataLength;
 
     setCurrentPage(e.selected);
@@ -287,20 +287,36 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
 
   return (
     <ChakraProvider>
-      <Modal isOpen={isOpen} onClose={onClose} size="full" scrollBehavior="inside">
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        size="full"
+        scrollBehavior="inside"
+      >
         <ModalOverlay />
         <ModalContent backgroundColor={"white"} maxHeight="100%">
-          <ModalHeader>Related Articles</ModalHeader>
-          <ModalCloseButton onClick={() => setSeeAllOpen(false)} />
+          <ModalHeader data-testid="related-articles-see-all-header">
+            Related Articles
+          </ModalHeader>
+          <ModalCloseButton
+            data-testid="related-articles-see-all-close-button"
+            onClick={() => setSeeAllOpen(false)}
+          />
           <ModalBody className="modal-container" backgroundColor={"white"}>
             <Box className="filter-container">
-              <Box className="category-filter-container">
-                <Text className="filter-header">
+              <Box
+                className="category-filter-container"
+                data-testid="related-articles-see-all-category-container"
+              >
+                <Text
+                  className="filter-header"
+                  data-testid="related-articles-see-all-category-title"
+                >
                   Category
                 </Text>
                 <Checkbox
                   value="news"
-                  data-testid="news-checkbox-category-filter-container"
+                  data-testid="related-articles-see-all-category-news-checkbox"
                   isChecked={selected.includes("news")}
                   isDisabled={selected.includes("all")}
                   onChange={() => handleCheckboxChange("news")}
@@ -309,7 +325,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                 </Checkbox>
                 <Checkbox
                   value="websites_ai"
-                  data-testid="websites-ai-checkbox-category-filter-container"
+                  data-testid="related-articles-see-all-category-website-ai-checkbox"
                   isChecked={selected.includes("websites_ai")}
                   isDisabled={selected.includes("all")}
                   onChange={() => handleCheckboxChange("websites_ai")}
@@ -318,7 +334,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                 </Checkbox>
                 <Checkbox
                   value="deloitte_public"
-                  data-testid="deloitte-public-checkbox-category-filter-container"
+                  data-testid="related-articles-see-all-category-deloitte-public-checkbox"
                   isChecked={selected.includes("deloitte_public")}
                   isDisabled={selected.includes("all")}
                   onChange={() => handleCheckboxChange("deloitte_public")}
@@ -327,7 +343,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                 </Checkbox>
                 <Checkbox
                   value="deloitte_private"
-                  data-testid="deloitte-private-checkbox-category-filter-container"
+                  data-testid="related-articles-see-all-category-deloitte-private-checkbox"
                   isChecked={selected.includes("deloitte_private")}
                   isDisabled={selected.includes("all")}
                   onChange={() => handleCheckboxChange("deloitte_private")}
@@ -335,13 +351,19 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                   Deloitte Private
                 </Checkbox>
               </Box>
-              <Box className="word-filter-container">
-                <Text className="filter-header">
+              <Box
+                className="word-filter-container"
+                data-testid="related-articles-see-all-topic-keyword-container"
+              >
+                <Text
+                  className="filter-header"
+                  data-testid="related-articles-see-all-topic-keyword-title"
+                >
                   Topic or Keyword
                 </Text>
                 <InputGroup>
                   <Input
-                    data-testid="search-input-word-filter-container"
+                    data-testid="related-articles-see-all-topic-keyword-input"
                     placeholder="Search"
                     onChange={(e) => setSearchInput(e.target.value)}
                     onKeyDown={handleSearchKeyDown}
@@ -362,23 +384,24 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
 
             <Box className="list-container">
               <Box className="list-container-header">
-                <Text>
+                <Text data-testid="related-articles-see-all-articles-found-text">
                   {filteredDataLength} related articles found
                 </Text>
                 <Box className="sort-dropdown-wrapper">
                   <Select
+                    data-testid="related-articles-see-all-select"
                     value={sortOption}
                     onChange={(e) => handleSortChange(e)}
                   >
                     <option
                       value="relevance"
-                      data-testid="relevance-sort-dropdown-wrapper"
+                      data-testid="related-articles-see-all-select-item"
                     >
                       Sort by: Relevance
                     </option>
                     <option
                       value="latest"
-                      data-testid="relevance-sort-dropdown-wrapper"
+                      data-testid="related-articles-see-all-select-item"
                     >
                       Sort by: Latest
                     </option>
@@ -401,10 +424,17 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                   </Tag>
                 )}
               </Box>
-              <Box className="list-container-content">
+              <Box
+                className="list-container-content"
+                data-testid="related-articles-see-all-articles-list-container"
+              >
                 {Array.isArray(currentItems) &&
                   currentItems.map((item: ItemType, index: number) => (
-                    <Box className="article-container" key={index}>
+                    <Box
+                      data-testid="related-articles-see-all-article-list-item"
+                      className="article-container"
+                      key={index}
+                    >
                       <Box className="article-container-header">
                         <Box className="article-logo-container">
                           {item.source === `['news']` ? (
@@ -429,7 +459,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                               }
                               size="sm"
                               bg="transparent"
-                              data-testid="article-logo-website-icon"
+                              data-testid="related-articles-see-all-article-icon"
                             />
                           ) : (
                             <Avatar
@@ -439,16 +469,26 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                               data-testid="article-logo-deloitte-icon"
                             />
                           )}
-                          <Text className="article-author">
+                          <Text
+                            className="article-author"
+                            data-testid="related-articles-see-all-article-header"
+                          >
                             {String(item.author).toUpperCase() ||
                               formatSourceToString(item.source).toUpperCase()}
                           </Text>
                         </Box>
                         <Box className="article-logo-container">
-                          <Text className="article-date">
+                          <Text
+                            className="article-date"
+                            data-testid="related-articles-see-all-article-date"
+                          >
                             {item.date}
                           </Text>
-                          <Link href={item.url} isExternal>
+                          <Link
+                            href={item.url}
+                            isExternal
+                            data-testid="related-articles-see-all-article-source-icon"
+                          >
                             <Icon
                               color="black"
                               as={MdOutlineOpenInNew}
@@ -466,6 +506,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                           <PopoverTrigger>
                             <Text
                               className="article-title"
+                              data-testid="related-articles-see-all-article-title"
                               onClick={() => {
                                 openDetailsModal(item);
                               }}
@@ -477,6 +518,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                             <PopoverArrow />
                             <PopoverBody>
                               <Text
+                                data-testid="related-article-item-hover"
                                 className="article-summary"
                                 noOfLines={10}
                                 align={"left"}
@@ -486,17 +528,24 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                             </PopoverBody>
                           </PopoverContent>
                         </Popover>
-                        <Text className="article-text">
+                        <Text
+                          className="article-text"
+                          data-testid="related-articles-see-all-article-description"
+                        >
                           {item.description}
                         </Text>
                       </Box>
                       <Box className="article-container-footer">
-                        <Box className="tag-container">
+                        <Box
+                          className="tag-container"
+                          data-testid="related-articles-see-all-article-tag-container"
+                        >
                           {formatStringIntoArray(item.tags)
                             .slice(0, 5)
                             .map((data, index) => (
                               <Tag
                                 className="tag-text"
+                                data-testid="related-articles-see-all-article-tag-item"
                                 key={index}
                                 color={tagTextColor}
                                 background={tagBgColor}
@@ -511,7 +560,10 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                   ))}
               </Box>
               <Box className="pagination-container">
-                <Text className="pagination-details">
+                <Text
+                  className="pagination-details"
+                  data-testid="related-articles-see-all-article-showing-record-text"
+                >
                   {filteredDataLength === 0
                     ? `Showing 0 record`
                     : `Showing ${itemOffset + 1} to ${
