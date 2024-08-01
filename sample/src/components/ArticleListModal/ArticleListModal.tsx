@@ -63,7 +63,8 @@ type ItemType = {
 };
 
 interface ArticleListModalProps {
-  setSeeAllOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  // setSeeAllOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  closeSeeAllsModal: (data: any) => void;
   openDetailsModal: (data: ItemType) => void;
   chatId: string;
   isOpen: boolean;
@@ -96,7 +97,8 @@ interface ArticleListModalProps {
 }
 
 const ArticleListModal: FC<ArticleListModalProps> = ({
-  setSeeAllOpen,
+  closeSeeAllsModal,
+  // setSeeAllOpen,
   openDetailsModal,
   chatId,
   isOpen,
@@ -300,7 +302,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
           </ModalHeader>
           <ModalCloseButton
             data-testid="related-articles-see-all-close-button"
-            onClick={() => setSeeAllOpen(false)}
+            onClick={closeSeeAllsModal}
           />
           <ModalBody className="modal-container" backgroundColor={"white"}>
             <Box className="filter-container">

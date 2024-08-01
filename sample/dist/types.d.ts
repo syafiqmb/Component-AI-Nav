@@ -99,6 +99,7 @@ interface RelatedArticlesDrawerProps {
     iconBgColor: string;
     iconColor: string;
     textLinkColor: string;
+    openDrawer: boolean;
 }
 declare const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps>;
 
@@ -122,7 +123,7 @@ type ItemType = {
     url: string;
 };
 interface ArticleListModalProps {
-    setSeeAllOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    closeSeeAllsModal: (data: any) => void;
     openDetailsModal: (data: ItemType) => void;
     chatId: string;
     isOpen: boolean;

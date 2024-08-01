@@ -28,39 +28,40 @@ import NewsIcon from "../../assets/icons/newsIcon";
 import WebsiteAiIcon from "../../assets/icons/websiteAiIcon";
 
 interface RelatedArticlesDrawerProps {
-  isFile: boolean,
-  isLoading: boolean,
-  setSeeAllOpen: React.Dispatch<React.SetStateAction<boolean>>,
-  openDetailsModal: (data: any) => void,
+  isFile: boolean;
+  isLoading: boolean;
+  setSeeAllOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  openDetailsModal: (data: any) => void;
   docs: [
     {
-      article: string,
-      author: string,
-      date: string,
-      description: string,
-      distance: number,
+      article: string;
+      author: string;
+      date: string;
+      description: string;
+      distance: number;
       facets: [
         {
-            content: string,
-            header: string,
-        }
-      ],
-      id: string,
-      source: string,
-      summary: string,
-      tags: string,
-      title: string,
-      url: string,
-    }
-  ],
-  tagBgColor: string,
-  tagTextColor: string,
-  iconBgColor: string,
-  iconColor: string,
-  textLinkColor: string,
+          content: string;
+          header: string;
+        },
+      ];
+      id: string;
+      source: string;
+      summary: string;
+      tags: string;
+      title: string;
+      url: string;
+    },
+  ];
+  tagBgColor: string;
+  tagTextColor: string;
+  iconBgColor: string;
+  iconColor: string;
+  textLinkColor: string;
+  openDrawer: boolean;
 }
 
-const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({ 
+const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
   isFile,
   isLoading,
   setSeeAllOpen,
@@ -71,11 +72,17 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
   iconBgColor,
   iconColor,
   textLinkColor,
-
+  openDrawer,
 }) => {
   const [isXl] = useMediaQuery("(min-width: 1280px)");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    if (!isXl && openDrawer === true) {
+      onOpen();
+    }
+  }, [isXl, openDrawer]);
 
   useEffect(() => {
     if (isXl) {
@@ -166,20 +173,24 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
                         <Box className="article-header">
                           {data.source === `['news']` ? (
                             <Avatar
-                              icon={<NewsIcon
-                                      iconBgColor={iconBgColor}
-                                      iconColor={iconColor}
-                                    />}
+                              icon={
+                                <NewsIcon
+                                  iconBgColor={iconBgColor}
+                                  iconColor={iconColor}
+                                />
+                              }
                               size="sm"
                               bg="transparent"
                               data-testid="news-item-header-news-icon"
                             />
                           ) : data.source === `['websites_ai']` ? (
                             <Avatar
-                              icon={<WebsiteAiIcon 
-                                      iconBgColor={iconBgColor}
-                                      iconColor={iconColor}
-                                    />}
+                              icon={
+                                <WebsiteAiIcon
+                                  iconBgColor={iconBgColor}
+                                  iconColor={iconColor}
+                                />
+                              }
                               size="sm"
                               bg="transparent"
                               data-testid="news-item-header-website-icon"
@@ -222,7 +233,12 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
                         <Box>
                           <Text
                             className="related-article-title"
-                            onClick={() => openDetailsModal(data)}
+                            onClick={() => {
+                              openDetailsModal(data);
+                              if (!isXl) {
+                                onClose();
+                              }
+                            }}
                           >
                             {data.title}
                           </Text>
@@ -247,19 +263,21 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
                                   })
                               ) : (
                                 <>
-                                  {listTag[index].slice(0, 2).map((data: any, key: number) => {
-                                    return (
-                                      <Tag
-                                        fontSize="8px"
-                                        className="tag-text"
-                                        key={key}
-                                        color={tagTextColor}
-                                        background={tagBgColor}
-                                      >
-                                        {data}
-                                      </Tag>
-                                    );
-                                  })}
+                                  {listTag[index]
+                                    .slice(0, 2)
+                                    .map((data: any, key: number) => {
+                                      return (
+                                        <Tag
+                                          fontSize="8px"
+                                          className="tag-text"
+                                          key={key}
+                                          color={tagTextColor}
+                                          background={tagBgColor}
+                                        >
+                                          {data}
+                                        </Tag>
+                                      );
+                                    })}
                                   <Tag
                                     className="popover-expand"
                                     color={tagTextColor}
@@ -278,11 +296,16 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
                 </Box>
                 <Button
                   className="see-all-text-btn"
-                  onClick={() => setSeeAllOpen(true)}
+                  onClick={() => {
+                    setSeeAllOpen(true);
+                    if (!isXl) {
+                      onClose();
+                    }
+                  }}
                 >
                   See all
                 </Button>
-                </>
+              </>
             )}
           </Box>
         </DrawerContent>
