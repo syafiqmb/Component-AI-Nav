@@ -7,6 +7,7 @@ export * from "./NewsDetail";
 export * from "./NewsFilter";
 export * from "./News";
 export * from "./DynamicOverview";
+export * from "./DynamicAccordion";
 export * from "./RelatedArticles";
 export * from "./RelatedArticlesDrawer";
 export * from "./ArticleListModal";

@@ -1,0 +1,12 @@
+.accordion-button {
+    flex: 1;
+    text-align: left;
+  }
+  
+.accordion-panel {
+  padding-bottom: 1rem; 
+}
+  
+.accordion-icon {
+  font-size: 12px;
+}
