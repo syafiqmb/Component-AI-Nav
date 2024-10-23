@@ -60,6 +60,16 @@ interface RelatedArticlesProps {
   iconBgColor: string;
   iconColor: string;
   textLinkColor: string;
+  relatedArticlesString: string;
+  loadingRelatedArticlesString: string;
+  noRelatedArticlesString: string;
+  noRelatedArticlesFoundString: string;
+  questionsAboutUploadedFileString: string;
+  seeAllString: string;
+  newsString: string;
+  websiteAISring: string;
+  deloittePublicString: string;
+  deloittePrivateString: string;
 }
 
 const RelatedArticles: FC<RelatedArticlesProps> = ({
@@ -73,6 +83,16 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({
   iconBgColor,
   iconColor,
   textLinkColor,
+  relatedArticlesString,
+  loadingRelatedArticlesString,
+  noRelatedArticlesString,
+  noRelatedArticlesFoundString,
+  questionsAboutUploadedFileString,
+  seeAllString,
+  newsString,
+  websiteAISring,
+  deloittePublicString,
+  deloittePrivateString,
 }) => {
   const [articleSidebarOpen, setArticleSidebarOpen] = useState(true);
 
@@ -92,6 +112,17 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({
   // function to trigger sidebar open / close
   const handleClick = () => {
     setArticleSidebarOpen(!articleSidebarOpen);
+  };
+
+  const checkNewsType = (data: any) => {
+    if (data === `['websites_ai']`) {
+      return websiteAISring;
+    } else if (data === `['deloitte_private']`) {
+      return deloittePrivateString;
+    } else if (data === `['deloitte_curation']`) {
+      return deloittePublicString;
+    }
+    return newsString;
   };
 
   const [visibleTagsCount, setVisibleTagsCount] = useState(2); // Initial visible tags count
@@ -185,7 +216,7 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({
                   className="related-articles-title"
                   data-testid="related-articles-title"
                 >
-                  Related Articles
+                  {relatedArticlesString}
                 </Text>
               </Flex>
               {listArticle.length < 1 ? (
@@ -200,18 +231,17 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({
                     data-testid="related-articles-no-article-found-label"
                   >
                     {isLoading
-                      ? "Loading related articles..."
+                      ? `${loadingRelatedArticlesString}`
                       : isFile
-                        ? "No related articles available"
-                        : "No article found.."}
+                        ? `${noRelatedArticlesString}`
+                        : `${noRelatedArticlesFoundString}`}
                   </Text>
                   {isFile && isLoading === false && (
                     <Text
                       data-testid="related-articles-no-article-found-description"
                       textAlign="center"
                     >
-                      Questions about uploaded files are specific and do not
-                      have related articles.
+                      {questionsAboutUploadedFileString}
                     </Text>
                   )}
                 </Center>
@@ -271,8 +301,9 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({
                               className="article-header-text"
                               data-testid="related-article-item-header"
                             >
-                              {String(data.author) ||
-                                formatSourceToString(data.source)}
+                              {checkNewsType(data.source)}
+                              {/* {String(data.author) ||
+                                formatSourceToString(data.source)} */}
                             </Text>
                             <Box
                               className="external-source-container"
@@ -411,7 +442,7 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({
                     data-testid="related-articles-see-all-button"
                     onClick={() => setSeeAllOpen(true)}
                   >
-                    See all
+                    {seeAllString}
                   </Button>
                 </Box>
               )}

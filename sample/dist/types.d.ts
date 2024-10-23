@@ -65,6 +65,16 @@ interface RelatedArticlesProps {
     iconBgColor: string;
     iconColor: string;
     textLinkColor: string;
+    relatedArticlesString: string;
+    loadingRelatedArticlesString: string;
+    noRelatedArticlesString: string;
+    noRelatedArticlesFoundString: string;
+    questionsAboutUploadedFileString: string;
+    seeAllString: string;
+    newsString: string;
+    websiteAISring: string;
+    deloittePublicString: string;
+    deloittePrivateString: string;
 }
 declare const RelatedArticles: FC<RelatedArticlesProps>;
 
@@ -99,6 +109,17 @@ interface RelatedArticlesDrawerProps {
     iconBgColor: string;
     iconColor: string;
     textLinkColor: string;
+    openDrawer: boolean;
+    relatedArticlesString: string;
+    loadingRelatedArticlesString: string;
+    noRelatedArticlesString: string;
+    noRelatedArticlesFoundString: string;
+    questionsAboutUploadedFileString: string;
+    seeAllString: string;
+    newsString: string;
+    websiteAISring: string;
+    deloittePublicString: string;
+    deloittePrivateString: string;
 }
 declare const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps>;
 
@@ -122,7 +143,7 @@ type ItemType = {
     url: string;
 };
 interface ArticleListModalProps {
-    setSeeAllOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    closeSeeAllsModal: (data: any) => void;
     openDetailsModal: (data: ItemType) => void;
     chatId: string;
     isOpen: boolean;
@@ -152,6 +173,21 @@ interface ArticleListModalProps {
     iconColor: string;
     tagBgColor: string;
     tagTextColor: string;
+    relatedArticlesString: string;
+    categoryString: string;
+    newsString: string;
+    websiteAISring: string;
+    deloittePublicString: string;
+    deloittePrivateString: string;
+    topicOrKeyword: string;
+    relatedArticlesFoundString: string;
+    sortByRelevanceString: string;
+    sortByLatestString: string;
+    show0recordsString: string;
+    showingString: string;
+    toString: string;
+    ofString: string;
+    recordsString: string;
 }
 declare const ArticleListModal: FC<ArticleListModalProps>;
 

@@ -28,39 +28,50 @@ import NewsIcon from "../../assets/icons/newsIcon";
 import WebsiteAiIcon from "../../assets/icons/websiteAiIcon";
 
 interface RelatedArticlesDrawerProps {
-  isFile: boolean,
-  isLoading: boolean,
-  setSeeAllOpen: React.Dispatch<React.SetStateAction<boolean>>,
-  openDetailsModal: (data: any) => void,
+  isFile: boolean;
+  isLoading: boolean;
+  setSeeAllOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  openDetailsModal: (data: any) => void;
   docs: [
     {
-      article: string,
-      author: string,
-      date: string,
-      description: string,
-      distance: number,
+      article: string;
+      author: string;
+      date: string;
+      description: string;
+      distance: number;
       facets: [
         {
-            content: string,
-            header: string,
-        }
-      ],
-      id: string,
-      source: string,
-      summary: string,
-      tags: string,
-      title: string,
-      url: string,
-    }
-  ],
-  tagBgColor: string,
-  tagTextColor: string,
-  iconBgColor: string,
-  iconColor: string,
-  textLinkColor: string,
+          content: string;
+          header: string;
+        },
+      ];
+      id: string;
+      source: string;
+      summary: string;
+      tags: string;
+      title: string;
+      url: string;
+    },
+  ];
+  tagBgColor: string;
+  tagTextColor: string;
+  iconBgColor: string;
+  iconColor: string;
+  textLinkColor: string;
+  openDrawer: boolean;
+  relatedArticlesString: string;
+  loadingRelatedArticlesString: string;
+  noRelatedArticlesString: string;
+  noRelatedArticlesFoundString: string;
+  questionsAboutUploadedFileString: string;
+  seeAllString: string;
+  newsString: string;
+  websiteAISring: string;
+  deloittePublicString: string;
+  deloittePrivateString: string;
 }
 
-const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({ 
+const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
   isFile,
   isLoading,
   setSeeAllOpen,
@@ -71,17 +82,44 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
   iconBgColor,
   iconColor,
   textLinkColor,
-
+  openDrawer,
+  relatedArticlesString,
+  loadingRelatedArticlesString,
+  noRelatedArticlesString,
+  noRelatedArticlesFoundString,
+  questionsAboutUploadedFileString,
+  seeAllString,
+  newsString,
+  websiteAISring,
+  deloittePublicString,
+  deloittePrivateString,
 }) => {
   const [isXl] = useMediaQuery("(min-width: 1280px)");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
+    if (!isXl && openDrawer === true) {
+      onOpen();
+    }
+  }, [isXl, openDrawer]);
+
+  useEffect(() => {
     if (isXl) {
       onClose();
     }
   }, [isXl, onClose]);
+
+  const checkNewsType = (data: any) => {
+    if (data === `['websites_ai']`) {
+      return websiteAISring;
+    } else if (data === `['deloitte_private']`) {
+      return deloittePrivateString;
+    } else if (data === `['deloitte_curation']`) {
+      return deloittePublicString;
+    }
+    return newsString;
+  };
 
   var listArticle = docs;
   var listTag: any[] = [];
@@ -128,7 +166,7 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
               onClick={onClose}
             />
             <Text className="related-articles-title" paddingBottom="24px">
-              Related Articles
+              {relatedArticlesString}
             </Text>
             {listArticle.length < 1 ? (
               <Center
@@ -142,18 +180,17 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
                   data-testid="related-articles-no-article-found-label"
                 >
                   {isLoading
-                    ? "Loading related articles..."
+                    ? `${loadingRelatedArticlesString}`
                     : isFile
-                      ? "No related articles available"
-                      : "No article found.."}
+                      ? `${noRelatedArticlesString}`
+                      : `${noRelatedArticlesFoundString}`}
                 </Text>
                 {isFile && isLoading === false && (
                   <Text
                     data-testid="related-articles-no-article-found-description"
                     textAlign="center"
                   >
-                    Questions about uploaded files are specific and do not have
-                    related articles.
+                    {questionsAboutUploadedFileString}
                   </Text>
                 )}
               </Center>
@@ -166,20 +203,24 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
                         <Box className="article-header">
                           {data.source === `['news']` ? (
                             <Avatar
-                              icon={<NewsIcon
-                                      iconBgColor={iconBgColor}
-                                      iconColor={iconColor}
-                                    />}
+                              icon={
+                                <NewsIcon
+                                  iconBgColor={iconBgColor}
+                                  iconColor={iconColor}
+                                />
+                              }
                               size="sm"
                               bg="transparent"
                               data-testid="news-item-header-news-icon"
                             />
                           ) : data.source === `['websites_ai']` ? (
                             <Avatar
-                              icon={<WebsiteAiIcon 
-                                      iconBgColor={iconBgColor}
-                                      iconColor={iconColor}
-                                    />}
+                              icon={
+                                <WebsiteAiIcon
+                                  iconBgColor={iconBgColor}
+                                  iconColor={iconColor}
+                                />
+                              }
                               size="sm"
                               bg="transparent"
                               data-testid="news-item-header-website-icon"
@@ -194,8 +235,9 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
                           )}
                           <Box className="header-text-container">
                             <Text className="article-header-text">
-                              {String(data.author).toUpperCase() ||
-                                formatSourceToString(data.source).toUpperCase()}
+                              {checkNewsType(data.source)}
+                              {/* {String(data.author).toUpperCase() ||
+                                formatSourceToString(data.source).toUpperCase()} */}
                             </Text>
                             <Box className="external-source-container">
                               <Text className="article-header-text">
@@ -222,7 +264,12 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
                         <Box>
                           <Text
                             className="related-article-title"
-                            onClick={() => openDetailsModal(data)}
+                            onClick={() => {
+                              openDetailsModal(data);
+                              if (!isXl) {
+                                onClose();
+                              }
+                            }}
                           >
                             {data.title}
                           </Text>
@@ -247,19 +294,21 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
                                   })
                               ) : (
                                 <>
-                                  {listTag[index].slice(0, 2).map((data: any, key: number) => {
-                                    return (
-                                      <Tag
-                                        fontSize="8px"
-                                        className="tag-text"
-                                        key={key}
-                                        color={tagTextColor}
-                                        background={tagBgColor}
-                                      >
-                                        {data}
-                                      </Tag>
-                                    );
-                                  })}
+                                  {listTag[index]
+                                    .slice(0, 2)
+                                    .map((data: any, key: number) => {
+                                      return (
+                                        <Tag
+                                          fontSize="8px"
+                                          className="tag-text"
+                                          key={key}
+                                          color={tagTextColor}
+                                          background={tagBgColor}
+                                        >
+                                          {data}
+                                        </Tag>
+                                      );
+                                    })}
                                   <Tag
                                     className="popover-expand"
                                     color={tagTextColor}
@@ -278,11 +327,16 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
                 </Box>
                 <Button
                   className="see-all-text-btn"
-                  onClick={() => setSeeAllOpen(true)}
+                  onClick={() => {
+                    setSeeAllOpen(true);
+                    if (!isXl) {
+                      onClose();
+                    }
+                  }}
                 >
-                  See all
+                  {seeAllString}
                 </Button>
-                </>
+              </>
             )}
           </Box>
         </DrawerContent>

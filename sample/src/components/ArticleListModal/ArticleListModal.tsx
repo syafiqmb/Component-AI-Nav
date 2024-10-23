@@ -63,7 +63,8 @@ type ItemType = {
 };
 
 interface ArticleListModalProps {
-  setSeeAllOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  // setSeeAllOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  closeSeeAllsModal: (data: any) => void;
   openDetailsModal: (data: ItemType) => void;
   chatId: string;
   isOpen: boolean;
@@ -93,10 +94,25 @@ interface ArticleListModalProps {
   iconColor: string;
   tagBgColor: string;
   tagTextColor: string;
+  relatedArticlesString: string;
+  categoryString: string;
+  newsString: string;
+  websiteAISring: string;
+  deloittePublicString: string;
+  deloittePrivateString: string;
+  topicOrKeyword: string;
+  relatedArticlesFoundString: string;
+  sortByRelevanceString: string;
+  sortByLatestString: string;
+  show0recordsString: string;
+  showingString: string;
+  toString: string;
+  ofString: string;
+  recordsString: string;
 }
 
 const ArticleListModal: FC<ArticleListModalProps> = ({
-  setSeeAllOpen,
+  closeSeeAllsModal,
   openDetailsModal,
   chatId,
   isOpen,
@@ -106,6 +122,21 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
   iconColor,
   tagBgColor,
   tagTextColor,
+  relatedArticlesString,
+  categoryString,
+  newsString,
+  websiteAISring,
+  deloittePublicString,
+  deloittePrivateString,
+  topicOrKeyword,
+  relatedArticlesFoundString,
+  sortByRelevanceString,
+  sortByLatestString,
+  show0recordsString,
+  showingString,
+  toString,
+  ofString,
+  recordsString,
 }) => {
   const [currentItems, setCurrentItems] = useState<ItemType[] | null>(null);
   const [pageCount, setPageCount] = useState(0);
@@ -130,6 +161,17 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
   // Function to handle sorting option change
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortOption(e.target.value);
+  };
+
+  const checkNewsType = (data: any) => {
+    if (data === `['websites_ai']`) {
+      return websiteAISring;
+    } else if (data === `['deloitte_private']`) {
+      return deloittePrivateString;
+    } else if (data === `['deloitte_curation']`) {
+      return deloittePublicString;
+    }
+    return newsString;
   };
 
   // Sorting logic
@@ -296,11 +338,11 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
         <ModalOverlay />
         <ModalContent backgroundColor={"white"} maxHeight="100%">
           <ModalHeader data-testid="related-articles-see-all-header">
-            Related Articles
+            {relatedArticlesString}
           </ModalHeader>
           <ModalCloseButton
             data-testid="related-articles-see-all-close-button"
-            onClick={() => setSeeAllOpen(false)}
+            onClick={closeSeeAllsModal}
           />
           <ModalBody className="modal-container" backgroundColor={"white"}>
             <Box className="filter-container">
@@ -312,7 +354,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                   className="filter-header"
                   data-testid="related-articles-see-all-category-title"
                 >
-                  Category
+                  {categoryString}
                 </Text>
                 <Checkbox
                   value="news"
@@ -321,7 +363,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                   isDisabled={selected.includes("all")}
                   onChange={() => handleCheckboxChange("news")}
                 >
-                  News
+                  {newsString} hi
                 </Checkbox>
                 <Checkbox
                   value="websites_ai"
@@ -330,7 +372,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                   isDisabled={selected.includes("all")}
                   onChange={() => handleCheckboxChange("websites_ai")}
                 >
-                  Websites AI
+                  {websiteAISring}
                 </Checkbox>
                 <Checkbox
                   value="deloitte_public"
@@ -339,7 +381,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                   isDisabled={selected.includes("all")}
                   onChange={() => handleCheckboxChange("deloitte_public")}
                 >
-                  Deloitte Public
+                  {deloittePublicString}
                 </Checkbox>
                 <Checkbox
                   value="deloitte_private"
@@ -348,7 +390,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                   isDisabled={selected.includes("all")}
                   onChange={() => handleCheckboxChange("deloitte_private")}
                 >
-                  Deloitte Private
+                  {deloittePrivateString}
                 </Checkbox>
               </Box>
               <Box
@@ -359,7 +401,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                   className="filter-header"
                   data-testid="related-articles-see-all-topic-keyword-title"
                 >
-                  Topic or Keyword
+                  {topicOrKeyword}
                 </Text>
                 <InputGroup>
                   <Input
@@ -385,7 +427,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
             <Box className="list-container">
               <Box className="list-container-header">
                 <Text data-testid="related-articles-see-all-articles-found-text">
-                  {filteredDataLength} related articles found
+                  {filteredDataLength} {relatedArticlesFoundString}
                 </Text>
                 <Box className="sort-dropdown-wrapper">
                   <Select
@@ -397,13 +439,13 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                       value="relevance"
                       data-testid="related-articles-see-all-select-item"
                     >
-                      Sort by: Relevance
+                      {sortByRelevanceString}
                     </option>
                     <option
                       value="latest"
                       data-testid="related-articles-see-all-select-item"
                     >
-                      Sort by: Latest
+                      {sortByLatestString}
                     </option>
                   </Select>
                 </Box>
@@ -473,8 +515,9 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                             className="article-author"
                             data-testid="related-articles-see-all-article-header"
                           >
-                            {String(item.author).toUpperCase() ||
-                              formatSourceToString(item.source).toUpperCase()}
+                            {checkNewsType(item.source)}
+                            {/* {String(item.author).toUpperCase() ||
+                              formatSourceToString(item.source).toUpperCase()} */}
                           </Text>
                         </Box>
                         <Box className="article-logo-container">
@@ -565,12 +608,12 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                   data-testid="related-articles-see-all-article-showing-record-text"
                 >
                   {filteredDataLength === 0
-                    ? `Showing 0 record`
-                    : `Showing ${itemOffset + 1} to ${
+                    ? `${show0recordsString}`
+                    : `${showingString} ${itemOffset + 1} ${toString} ${
                         currentPage + 1 === pageCount
                           ? filteredDataLength
                           : currentEndOffset
-                      } of ${filteredDataLength} records`}
+                      } ${ofString} ${filteredDataLength} ${recordsString}`}
                 </Text>
                 <Box className="pagination-controls-container">
                   <ReactPaginate
