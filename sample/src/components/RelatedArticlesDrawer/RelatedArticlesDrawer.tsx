@@ -59,6 +59,16 @@ interface RelatedArticlesDrawerProps {
   iconColor: string;
   textLinkColor: string;
   openDrawer: boolean;
+  relatedArticlesString: string;
+  loadingRelatedArticlesString: string;
+  noRelatedArticlesString: string;
+  noRelatedArticlesFoundString: string;
+  questionsAboutUploadedFileString: string;
+  seeAllString: string;
+  newsString: string;
+  websiteAISring: string;
+  deloittePublicString: string;
+  deloittePrivateString: string;
 }
 
 const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
@@ -73,6 +83,16 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
   iconColor,
   textLinkColor,
   openDrawer,
+  relatedArticlesString,
+  loadingRelatedArticlesString,
+  noRelatedArticlesString,
+  noRelatedArticlesFoundString,
+  questionsAboutUploadedFileString,
+  seeAllString,
+  newsString,
+  websiteAISring,
+  deloittePublicString,
+  deloittePrivateString,
 }) => {
   const [isXl] = useMediaQuery("(min-width: 1280px)");
 
@@ -89,6 +109,17 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
       onClose();
     }
   }, [isXl, onClose]);
+
+  const checkNewsType = (data: any) => {
+    if (data === `['websites_ai']`) {
+      return websiteAISring;
+    } else if (data === `['deloitte_private']`) {
+      return deloittePrivateString;
+    } else if (data === `['deloitte_curation']`) {
+      return deloittePublicString;
+    }
+    return newsString;
+  };
 
   var listArticle = docs;
   var listTag: any[] = [];
@@ -135,7 +166,7 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
               onClick={onClose}
             />
             <Text className="related-articles-title" paddingBottom="24px">
-              Related Articles
+              {relatedArticlesString}
             </Text>
             {listArticle.length < 1 ? (
               <Center
@@ -149,18 +180,17 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
                   data-testid="related-articles-no-article-found-label"
                 >
                   {isLoading
-                    ? "Loading related articles..."
+                    ? `${loadingRelatedArticlesString}`
                     : isFile
-                      ? "No related articles available"
-                      : "No article found.."}
+                      ? `${noRelatedArticlesString}`
+                      : `${noRelatedArticlesFoundString}`}
                 </Text>
                 {isFile && isLoading === false && (
                   <Text
                     data-testid="related-articles-no-article-found-description"
                     textAlign="center"
                   >
-                    Questions about uploaded files are specific and do not have
-                    related articles.
+                    {questionsAboutUploadedFileString}
                   </Text>
                 )}
               </Center>
@@ -205,8 +235,9 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
                           )}
                           <Box className="header-text-container">
                             <Text className="article-header-text">
-                              {String(data.author).toUpperCase() ||
-                                formatSourceToString(data.source).toUpperCase()}
+                              {checkNewsType(data.source)}
+                              {/* {String(data.author).toUpperCase() ||
+                                formatSourceToString(data.source).toUpperCase()} */}
                             </Text>
                             <Box className="external-source-container">
                               <Text className="article-header-text">
@@ -303,7 +334,7 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
                     }
                   }}
                 >
-                  See all
+                  {seeAllString}
                 </Button>
               </>
             )}
