@@ -109,6 +109,7 @@ interface ArticleListModalProps {
   toString: string;
   ofString: string;
   recordsString: string;
+  theme: object;
 }
 
 const ArticleListModal: FC<ArticleListModalProps> = ({
@@ -137,6 +138,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
   toString,
   ofString,
   recordsString,
+  theme,
 }) => {
   const [currentItems, setCurrentItems] = useState<ItemType[] | null>(null);
   const [pageCount, setPageCount] = useState(0);
@@ -328,7 +330,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
   };
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <Modal
         isOpen={isOpen}
         onClose={onClose}
@@ -341,6 +343,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
             {relatedArticlesString}
           </ModalHeader>
           <ModalCloseButton
+            color="black"
             data-testid="related-articles-see-all-close-button"
             onClick={closeSeeAllsModal}
           />
@@ -363,7 +366,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                   isDisabled={selected.includes("all")}
                   onChange={() => handleCheckboxChange("news")}
                 >
-                  {newsString} hi
+                  {newsString}
                 </Checkbox>
                 <Checkbox
                   value="websites_ai"

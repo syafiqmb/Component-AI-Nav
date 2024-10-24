@@ -188,6 +188,7 @@ interface ArticleListModalProps {
     toString: string;
     ofString: string;
     recordsString: string;
+    theme: object;
 }
 declare const ArticleListModal: FC<ArticleListModalProps>;
 
