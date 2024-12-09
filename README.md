@@ -1,5 +1,6 @@
 # **Version Details**
 
-Latest Version : 109
+Latest Version : 113
+
 - AI Navigator Version : 108
-- Trial SET Version : 109
+- Trial SET Version : 113

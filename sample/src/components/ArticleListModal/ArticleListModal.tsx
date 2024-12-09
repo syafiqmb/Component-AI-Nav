@@ -172,6 +172,8 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
       return deloittePrivateString;
     } else if (data === `['deloitte_curation']`) {
       return deloittePublicString;
+    } else if (data === `['pdf']`) {
+      return "PDF";
     }
     return newsString;
   };
@@ -367,6 +369,15 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                   onChange={() => handleCheckboxChange("news")}
                 >
                   {newsString}
+                </Checkbox>
+                <Checkbox
+                  value="pdf"
+                  data-testid="related-articles-see-all-category-news-checkbox"
+                  isChecked={selected.includes("pdf")}
+                  isDisabled={selected.includes("all")}
+                  onChange={() => handleCheckboxChange("pdf")}
+                >
+                  PDF
                 </Checkbox>
                 {/* <Checkbox
                   value="websites_ai"

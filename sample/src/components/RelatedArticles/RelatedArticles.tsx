@@ -121,6 +121,8 @@ const RelatedArticles: FC<RelatedArticlesProps> = ({
       return deloittePrivateString;
     } else if (data === `['deloitte_curation']`) {
       return deloittePublicString;
+    } else if (data === `['pdf']`) {
+      return "PDF";
     }
     return newsString;
   };

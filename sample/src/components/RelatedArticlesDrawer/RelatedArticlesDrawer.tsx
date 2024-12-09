@@ -117,6 +117,8 @@ const RelatedArticlesDrawer: FC<RelatedArticlesDrawerProps> = ({
       return deloittePrivateString;
     } else if (data === `['deloitte_curation']`) {
       return deloittePublicString;
+    } else if (data === `['pdf']`) {
+      return "PDF";
     }
     return newsString;
   };
