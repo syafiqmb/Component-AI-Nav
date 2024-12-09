@@ -368,7 +368,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                 >
                   {newsString}
                 </Checkbox>
-                <Checkbox
+                {/* <Checkbox
                   value="websites_ai"
                   data-testid="related-articles-see-all-category-website-ai-checkbox"
                   isChecked={selected.includes("websites_ai")}
@@ -394,7 +394,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                   onChange={() => handleCheckboxChange("deloitte_private")}
                 >
                   {deloittePrivateString}
-                </Checkbox>
+                </Checkbox> */}
               </Box>
               <Box
                 className="word-filter-container"
