@@ -110,6 +110,7 @@ interface ArticleListModalProps {
   ofString: string;
   recordsString: string;
   theme: object;
+  checkboxFilter: [{ value: string; name: string }];
 }
 
 const ArticleListModal: FC<ArticleListModalProps> = ({
@@ -139,6 +140,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
   ofString,
   recordsString,
   theme,
+  checkboxFilter,
 }) => {
   const [currentItems, setCurrentItems] = useState<ItemType[] | null>(null);
   const [pageCount, setPageCount] = useState(0);
@@ -340,7 +342,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
         scrollBehavior="inside"
       >
         <ModalOverlay />
-        <ModalContent backgroundColor={"white"} maxHeight="100%">
+        <ModalContent maxHeight="100%">
           <ModalHeader data-testid="related-articles-see-all-header">
             {relatedArticlesString}
           </ModalHeader>
@@ -349,19 +351,32 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
             data-testid="related-articles-see-all-close-button"
             onClick={closeSeeAllsModal}
           />
-          <ModalBody className="modal-container" backgroundColor={"white"}>
+          <ModalBody className="modal-container">
             <Box className="filter-container">
               <Box
-                className="category-filter-container"
+                className="category-filter-container-modal"
                 data-testid="related-articles-see-all-category-container"
               >
                 <Text
-                  className="filter-header"
+                  className="filter-header-modal"
                   data-testid="related-articles-see-all-category-title"
                 >
                   {categoryString}
                 </Text>
-                <Checkbox
+                {checkboxFilter &&
+                  checkboxFilter.map((data: any, key: any) => (
+                    <Checkbox
+                      key={key}
+                      value={data.value}
+                      data-testid={`related-articles-see-all-category-${data.value}-checkbox`}
+                      isChecked={selected.includes(data.value)}
+                      isDisabled={selected.includes("all")}
+                      onChange={() => handleCheckboxChange(data.value)}
+                    >
+                      {data.name}
+                    </Checkbox>
+                  ))}
+                {/* <Checkbox
                   value="news"
                   data-testid="related-articles-see-all-category-news-checkbox"
                   isChecked={selected.includes("news")}
@@ -378,7 +393,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                   onChange={() => handleCheckboxChange("pdf")}
                 >
                   PDF
-                </Checkbox>
+                </Checkbox> */}
                 {/* <Checkbox
                   value="websites_ai"
                   data-testid="related-articles-see-all-category-website-ai-checkbox"
@@ -408,11 +423,11 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                 </Checkbox> */}
               </Box>
               <Box
-                className="word-filter-container"
+                className="word-filter-container-modal"
                 data-testid="related-articles-see-all-topic-keyword-container"
               >
                 <Text
-                  className="filter-header"
+                  className="filter-header-modal"
                   data-testid="related-articles-see-all-topic-keyword-title"
                 >
                   {topicOrKeyword}
@@ -439,11 +454,11 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
             </Box>
 
             <Box className="list-container">
-              <Box className="list-container-header">
+              <Box className="list-container-header-modal">
                 <Text data-testid="related-articles-see-all-articles-found-text">
                   {filteredDataLength} {relatedArticlesFoundString}
                 </Text>
-                <Box className="sort-dropdown-wrapper">
+                <Box className="sort-dropdown-wrapper-modal">
                   <Select
                     data-testid="related-articles-see-all-select"
                     value={sortOption}
@@ -492,7 +507,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                       key={index}
                     >
                       <Box className="article-container-header">
-                        <Box className="article-logo-container">
+                        <Box className="article-logo-container-modal">
                           {item.source === `['news']` ? (
                             <Avatar
                               icon={
@@ -526,7 +541,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                             />
                           )}
                           <Text
-                            className="article-author"
+                            className="article-author-modal"
                             data-testid="related-articles-see-all-article-header"
                           >
                             {checkNewsType(item.source)}
@@ -534,9 +549,9 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                               formatSourceToString(item.source).toUpperCase()} */}
                           </Text>
                         </Box>
-                        <Box className="article-logo-container">
+                        <Box className="article-logo-container-modal">
                           <Text
-                            className="article-date"
+                            className="article-date-modal"
                             data-testid="related-articles-see-all-article-date"
                           >
                             {item.date}
@@ -547,7 +562,6 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                             data-testid="related-articles-see-all-article-source-icon"
                           >
                             <Icon
-                              color="black"
                               as={MdOutlineOpenInNew}
                               _hover={{
                                 fill: "#A0AEC0",
@@ -562,7 +576,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                         <Popover trigger="hover" placement="left">
                           <PopoverTrigger>
                             <Text
-                              className="article-title"
+                              className="article-title-modal"
                               data-testid="related-articles-see-all-article-title"
                               onClick={() => {
                                 openDetailsModal(item);
@@ -586,7 +600,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                           </PopoverContent>
                         </Popover>
                         <Text
-                          className="article-text"
+                          className="article-text-modal"
                           data-testid="related-articles-see-all-article-description"
                         >
                           {item.description}
@@ -618,7 +632,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
               </Box>
               <Box className="pagination-container">
                 <Text
-                  className="pagination-details"
+                  className="pagination-details-modal"
                   data-testid="related-articles-see-all-article-showing-record-text"
                 >
                   {filteredDataLength === 0
@@ -638,14 +652,14 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                     pageCount={pageCount}
                     previousLabel="<"
                     pageClassName="page-item"
-                    pageLinkClassName="page-link"
+                    pageLinkClassName="page-link-modal"
                     previousClassName="page-item"
-                    previousLinkClassName="page-link"
+                    previousLinkClassName="page-link-modal"
                     nextClassName="page-item"
-                    nextLinkClassName="page-link"
+                    nextLinkClassName="page-link-modal"
                     breakLabel="..."
                     breakClassName="page-item"
-                    breakLinkClassName="page-link"
+                    breakLinkClassName="page-link-modal"
                     containerClassName="pagination"
                     activeClassName="active"
                     renderOnZeroPageCount={null}
