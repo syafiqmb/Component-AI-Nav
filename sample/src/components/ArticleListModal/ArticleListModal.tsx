@@ -363,7 +363,7 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                 >
                   {categoryString}
                 </Text>
-                {checkboxFilter &&
+                {checkboxFilter ? (
                   checkboxFilter.map((data: any, key: any) => (
                     <Checkbox
                       key={key}
@@ -375,25 +375,29 @@ const ArticleListModal: FC<ArticleListModalProps> = ({
                     >
                       {data.name}
                     </Checkbox>
-                  ))}
-                {/* <Checkbox
-                  value="news"
-                  data-testid="related-articles-see-all-category-news-checkbox"
-                  isChecked={selected.includes("news")}
-                  isDisabled={selected.includes("all")}
-                  onChange={() => handleCheckboxChange("news")}
-                >
-                  {newsString}
-                </Checkbox>
-                <Checkbox
-                  value="pdf"
-                  data-testid="related-articles-see-all-category-news-checkbox"
-                  isChecked={selected.includes("pdf")}
-                  isDisabled={selected.includes("all")}
-                  onChange={() => handleCheckboxChange("pdf")}
-                >
-                  PDF
-                </Checkbox> */}
+                  ))
+                ) : (
+                  <>
+                    <Checkbox
+                      value="news"
+                      data-testid="related-articles-see-all-category-news-checkbox"
+                      isChecked={selected.includes("news")}
+                      isDisabled={selected.includes("all")}
+                      onChange={() => handleCheckboxChange("news")}
+                    >
+                      {newsString}
+                    </Checkbox>
+                    <Checkbox
+                      value="pdf"
+                      data-testid="related-articles-see-all-category-news-checkbox"
+                      isChecked={selected.includes("pdf")}
+                      isDisabled={selected.includes("all")}
+                      onChange={() => handleCheckboxChange("pdf")}
+                    >
+                      PDF
+                    </Checkbox>
+                  </>
+                )}
                 {/* <Checkbox
                   value="websites_ai"
                   data-testid="related-articles-see-all-category-website-ai-checkbox"
